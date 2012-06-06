@@ -1,0 +1,349 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{2162B6D8-871F-4B2E-8D97-0FA2C8DA76D1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DVBServices</RootNamespace>
+    <AssemblyName>DVBServices</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <StartupObject>
+    </StartupObject>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+    <DocumentationFile>bin\Release\DVBServices.XML</DocumentationFile>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisLogFile>bin\Debug\DVBServices.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisRuleDirectories>;C:\Program Files\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile>bin\Release\DVBServices.XML</DocumentationFile>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisLogFile>bin\Release\DVBServices.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisRuleDirectories>;C:\Program Files\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="PresentationCore">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="PresentationFramework">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="PresentationFramework.Aero">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ATSC PSIP\AC3AudioDescriptor.cs" />
+    <Compile Include="ATSC PSIP\AtscPsipController.cs" />
+    <Compile Include="ATSC PSIP\CaptionServiceDescriptor.cs" />
+    <Compile Include="ATSC PSIP\CaptionServiceDescriptorEntry.cs" />
+    <Compile Include="ATSC PSIP\ContentAdvisoryDescriptor.cs" />
+    <Compile Include="ATSC PSIP\ContentAdvisoryRatingDimension.cs" />
+    <Compile Include="ATSC PSIP\ContentAdvisoryRatingRegion.cs" />
+    <Compile Include="ATSC PSIP\EventInformationTable.cs" />
+    <Compile Include="ATSC PSIP\EventInformationTableEntry.cs" />
+    <Compile Include="ATSC PSIP\ExtendedChannelNameDescriptor.cs" />
+    <Compile Include="ATSC PSIP\ExtendedTextTable.cs" />
+    <Compile Include="ATSC PSIP\ExtendedTextTableEntry.cs" />
+    <Compile Include="ATSC PSIP\GenreAttribute.cs" />
+    <Compile Include="ATSC PSIP\GenreDescriptor.cs" />
+    <Compile Include="ATSC PSIP\MasterGuideTable.cs" />
+    <Compile Include="ATSC PSIP\MasterGuideTableEntry.cs" />
+    <Compile Include="ATSC PSIP\MultipleString.cs" />
+    <Compile Include="ATSC PSIP\AtscPsipProgramCategory.cs" />
+    <Compile Include="ATSC PSIP\RatingRegion.cs" />
+    <Compile Include="ATSC PSIP\RatingRegionTable.cs" />
+    <Compile Include="ATSC PSIP\RatingRegionDimension.cs" />
+    <Compile Include="ATSC PSIP\RatingRegionValue.cs" />
+    <Compile Include="ATSC PSIP\ServiceLocationDescriptor.cs" />
+    <Compile Include="ATSC PSIP\ServiceLocationDescriptorEntry.cs" />
+    <Compile Include="ATSC PSIP\VirtualChannelTable.cs" />
+    <Compile Include="ATSC PSIP\VirtualChannel.cs" />
+    <Compile Include="Bell TV\BellShortEventDescriptor.cs" />
+    <Compile Include="Bell TV\BellTVController.cs" />
+    <Compile Include="Bell TV\BellTVEntry.cs" />
+    <Compile Include="Bell TV\BellTVExtendedEventDescriptor.cs" />
+    <Compile Include="Bell TV\BellTVProgramCategory.cs" />
+    <Compile Include="Bell TV\BellTVRatingDescriptor.cs" />
+    <Compile Include="Bell TV\BellTVSection.cs" />
+    <Compile Include="Bell TV\BellTVSeriesDescriptor.cs" />
+    <Compile Include="CategoryEntry.cs" />
+    <Compile Include="ControllerBase.cs" />
+    <Compile Include="CustomProgramCategory.cs" />
+    <Compile Include="Decompressors\SCSUDecompressor.cs" />
+    <Compile Include="Dish Network\DishNetworkController.cs" />
+    <Compile Include="Dish Network\DishNetworkEntry.cs" />
+    <Compile Include="Dish Network\DishNetworkExtendedEventDescriptor.cs" />
+    <Compile Include="Dish Network\DishNetworkProgramCategory.cs" />
+    <Compile Include="Dish Network\DishNetworkSupplementaryDescriptor.cs" />
+    <Compile Include="Dish Network\DishNetworkRatingDescriptor.cs" />
+    <Compile Include="Dish Network\DishNetworkSection.cs" />
+    <Compile Include="Dish Network\DishNetworkSeriesDescriptor.cs" />
+    <Compile Include="Dish Network\DishNetworkShortEventDescriptor.cs" />
+    <Compile Include="Dish Network\DishNetworkVCHIPDescriptor.cs" />
+    <Compile Include="DVB\DVBCableDeliverySystemDescriptor.cs" />
+    <Compile Include="DVB\DVBDeliverySystemDescriptor.cs" />
+    <Compile Include="DVB\DVBNetworkNameDescriptor.cs" />
+    <Compile Include="DVB\BouquetAssociationSection.cs" />
+    <Compile Include="DVB\DVBLocalTimeOffsetEntry.cs" />
+    <Compile Include="DVB\DVBSatelliteDeliverySystemDescriptor.cs" />
+    <Compile Include="DVB\DVBTerrestrialDeliverySystemDescriptor.cs" />
+    <Compile Include="DVB\NetworkInformationSection.cs" />
+    <Compile Include="EIT\EITProgramContent.cs" />
+    <Compile Include="EIT\EITChannel.cs" />
+    <Compile Include="EIT\EITChannelInfoDescriptor.cs" />
+    <Compile Include="EIT\EITChannelInfoEntry.cs" />
+    <Compile Include="Enumerations.cs" />
+    <Compile Include="FreeSat\FreeSatChannel.cs" />
+    <Compile Include="FreeSat\FreeSatChannelInfoDescriptor.cs" />
+    <Compile Include="FreeSat\FreeSatChannelInfoEntry.cs" />
+    <Compile Include="FreeSat\FreeSatController.cs" />
+    <Compile Include="Decompressors\MultiTreeDictionaryEntry.cs" />
+    <Compile Include="FreeSat\FreeSatEntry.cs" />
+    <Compile Include="Decompressors\HuffmanEntry.cs" />
+    <Compile Include="FreeSat\FreeSatSection.cs" />
+    <Compile Include="DVB\DVBContentIdentifierDescriptor.cs" />
+    <Compile Include="MediaHighway\MediaHighway1Replay.cs" />
+    <Compile Include="MediaHighway\MediaHighway2CategorySection.cs" />
+    <Compile Include="MediaHighway\MediaHighway2ChannelSection.cs" />
+    <Compile Include="MediaHighway\MediaHighway2Controller.cs" />
+    <Compile Include="MediaHighway\MediaHighway2SummaryData.cs" />
+    <Compile Include="MediaHighway\MediaHighway2SummarySection.cs" />
+    <Compile Include="MediaHighway\MediaHighway2TitleData.cs" />
+    <Compile Include="MediaHighway\MediaHighway2TitleSection.cs" />
+    <Compile Include="MediaHighway\MediaHighwayChannelTitle.cs" />
+    <Compile Include="MediaHighway\MediaHighwayProgramCategory.cs" />
+    <Compile Include="MediaHighway\MediaHighwayCategoryEntry.cs" />
+    <Compile Include="MediaHighway\MediaHighway1CategorySection.cs" />
+    <Compile Include="MediaHighway\MediaHighwayChannel.cs" />
+    <Compile Include="MediaHighway\MediaHighwayChanneInfoEntry.cs" />
+    <Compile Include="MediaHighway\MediaHighway1ChannelSection.cs" />
+    <Compile Include="MediaHighway\MediaHighway1SummaryData.cs" />
+    <Compile Include="MediaHighway\MediaHighway1SummarySection.cs" />
+    <Compile Include="MediaHighway\MediaHighway1TitleData.cs" />
+    <Compile Include="MediaHighway\MediaHighway1TitleSection.cs" />
+    <Compile Include="MediaHighway\MediaHighway1Controller.cs" />
+    <Compile Include="MediaHighway\MediaHighwaySummary.cs" />
+    <Compile Include="MediaHighway\MediaHighwayTitle.cs" />
+    <Compile Include="MHEG5\BIOPLiteComponent.cs" />
+    <Compile Include="MHEG5\BIOPMessage.cs" />
+    <Compile Include="MHEG5\BIOPBinding.cs" />
+    <Compile Include="MHEG5\BIOPDescriptor.cs" />
+    <Compile Include="MHEG5\BIOPDirectoryMessage.cs" />
+    <Compile Include="MHEG5\BIOPFileMessage.cs" />
+    <Compile Include="MHEG5\BIOPLiteOptionsProfileBody.cs" />
+    <Compile Include="MHEG5\BIOPMessageDetail.cs" />
+    <Compile Include="MHEG5\BIOPModuleInfo.cs" />
+    <Compile Include="MHEG5\BIOPName.cs" />
+    <Compile Include="MHEG5\BIOPObjectLocation.cs" />
+    <Compile Include="MHEG5\BIOPProfileBase.cs" />
+    <Compile Include="MHEG5\BIOPProfileBody.cs" />
+    <Compile Include="MHEG5\BIOPServiceContext.cs" />
+    <Compile Include="MHEG5\BIOPServiceGatewayMessage.cs" />
+    <Compile Include="MHEG5\BIOPTapSelector.cs" />
+    <Compile Include="DVB\DVBBouquetNameDescriptor.cs" />
+    <Compile Include="EIT\DVBComponentDescriptor.cs" />
+    <Compile Include="EIT\DVBContentDescriptor.cs" />
+    <Compile Include="MHEG5\BIOPTap.cs" />
+    <Compile Include="MHEG5\CosNameComponent.cs" />
+    <Compile Include="MHEG5\CosNamingName.cs" />
+    <Compile Include="DescriptorBase.cs" />
+    <Compile Include="MHEG5\DSMCCCompatibilityDescriptor.cs" />
+    <Compile Include="MHEG5\DSMCCCompatibilityDescriptorEntry.cs" />
+    <Compile Include="MHEG5\DSMCCCompatibilityDescriptorSubDescriptor.cs" />
+    <Compile Include="MHEG5\DSMCCDownloadCancel.cs" />
+    <Compile Include="MHEG5\DSMCCDownloadDataBlock.cs" />
+    <Compile Include="MHEG5\DSMCCDownloadInfoIndication.cs" />
+    <Compile Include="MHEG5\DSMCCDownloadInfoIndicationModule.cs" />
+    <Compile Include="MHEG5\DSMCCDownloadServerInitiate.cs" />
+    <Compile Include="MHEG5\DSMCCHeader.cs" />
+    <Compile Include="MHEG5\DSMCCMessage.cs" />
+    <Compile Include="MHEG5\DSMCCModule.cs" />
+    <Compile Include="MHEG5\DSMCCController.cs" />
+    <Compile Include="MHEG5\DSMCCSection.cs" />
+    <Compile Include="MHEG5\DSMCCTransactionID.cs" />
+    <Compile Include="MHEG5\DSMConnBinder.cs" />
+    <Compile Include="MHEG5\DSMServiceLocation.cs" />
+    <Compile Include="MHEG5\DVBCompressedModuleDescriptor.cs" />
+    <Compile Include="DVB\DVBLocalTimeOffsetDescriptor.cs" />
+    <Compile Include="DVB\DVBServiceDescriptor.cs" />
+    <Compile Include="DVB\DVBServiceListDescriptor.cs" />
+    <Compile Include="DVB\ServiceListEntry.cs" />
+    <Compile Include="EIT\EITController.cs" />
+    <Compile Include="EIT\EITEntry.cs" />
+    <Compile Include="EIT\EITSection.cs" />
+    <Compile Include="EPGController.cs" />
+    <Compile Include="EIT\DVBExtendedEventDescriptor.cs" />
+    <Compile Include="FrequencyScanner.cs" />
+    <Compile Include="MHEG5\IOPIOR.cs" />
+    <Compile Include="MHEG5\MHEG5Channel.cs" />
+    <Compile Include="FreeviewChannelInfoDescriptor.cs" />
+    <Compile Include="FreeviewChannelInfoEntry.cs" />
+    <Compile Include="MHEG5\MHEGParserParameters.cs" />
+    <Compile Include="MHEG5\MHPCachingPriorityDescriptor.cs" />
+    <Compile Include="MHEG5\MHPContentTypeDescriptor.cs" />
+    <Compile Include="MHEG5\MHPLabelDescriptor.cs" />
+    <Compile Include="EIT\DVBParentalRatingDescriptor.cs" />
+    <Compile Include="Interfaces.cs" />
+    <Compile Include="Mpeg2BasicHeader.cs" />
+    <Compile Include="Mpeg2ExtendedHeader.cs" />
+    <Compile Include="OpenTV\OpenTVChannel.cs" />
+    <Compile Include="OpenTV\OpenTVChannelInfoDescriptor.cs" />
+    <Compile Include="OpenTV\OpenTVChannelInfoEntry.cs" />
+    <Compile Include="OpenTV\OpenTVController.cs" />
+    <Compile Include="Decompressors\SingleTreeDictionaryEntry.cs" />
+    <Compile Include="OpenTV\OpenTVExtendedDescriptionRecord.cs" />
+    <Compile Include="OpenTV\OpenTVHuffmanEntry.cs" />
+    <Compile Include="OpenTV\OpenTVRecordBase.cs" />
+    <Compile Include="OpenTV\OpenTVSeriesLinkRecord.cs" />
+    <Compile Include="OpenTV\OpenTVShortDescriptionRecord.cs" />
+    <Compile Include="OpenTV\OpenTVSummaryData.cs" />
+    <Compile Include="OpenTV\OpenTVSummaryHeader.cs" />
+    <Compile Include="OpenTV\OpenTVSummarySection.cs" />
+    <Compile Include="OpenTV\OpenTVProgramCategory.cs" />
+    <Compile Include="OpenTV\OpenTVTitleData.cs" />
+    <Compile Include="OpenTV\OpenTVTitleDataRecord.cs" />
+    <Compile Include="OpenTV\OpenTVTitleHeader.cs" />
+    <Compile Include="OpenTV\OpenTVTitleSection.cs" />
+    <Compile Include="DVB\ProgramAssociationSection.cs" />
+    <Compile Include="DVB\ProgramInfo.cs" />
+    <Compile Include="DVB\ProgramMapSection.cs" />
+    <Compile Include="DVB\ServiceDescription.cs" />
+    <Compile Include="DVB\ServiceDescriptionSection.cs" />
+    <Compile Include="MHEG5\ServiceGatewayInfo.cs" />
+    <Compile Include="EIT\DVBShortEventDescriptor.cs" />
+    <Compile Include="DVB\StreamInfo.cs" />
+    <Compile Include="DVB\TimeOffsetEntry.cs" />
+    <Compile Include="DVB\TimeOffsetSection.cs" />
+    <Compile Include="DVB\TransportStream.cs" />
+    <Compile Include="ServiceChannelDescriptor.cs" />
+    <Compile Include="SiehFern Info\SiehFernInfoChannelSection.cs" />
+    <Compile Include="SiehFern Info\SiehFernInfoController.cs" />
+    <Compile Include="SiehFern Info\SiehFernInfoEPGSection.cs" />
+    <Compile Include="Utils.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\zlib.net\zlib.net.csproj">
+      <Project>{0C89B7A2-A218-49E4-B545-5B044A45F977}</Project>
+      <Name>zlib.net</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DirectShow\DirectShow.csproj">
+      <Project>{5527E0AC-14A4-47CE-AD86-DD3B10DDEA54}</Project>
+      <Name>DirectShow</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DomainObjects\DomainObjects.csproj">
+      <Project>{691C6EB5-D035-43E6-B3A9-F5131BF09916}</Project>
+      <Name>DomainObjects</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
