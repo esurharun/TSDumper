@@ -3,8 +3,8 @@ TSDumper
 
 Scheduled advanced DVB Stream dumper application for DVB-S cards on Windows.
 
-<a href="https://github.com/esurharun/TSDumper/blob/master/doc/screenshot.jpg">
-<img src="https://github.com/esurharun/TSDumper/blob/master/doc/screenshot.jpg" width="180"/>
+<a href="https://github.com/esurharun/TSDumper/blob/master/doc/screenshot.jpg?raw=true">
+<img src="https://github.com/esurharun/TSDumper/blob/master/doc/screenshot.jpg?raw=true" />
 </a>
 
 Mantis driver on Ubuntu lacks with some tuning problems  but windows driver for Technisat SkyStar HD2. 
