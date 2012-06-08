@@ -220,6 +220,11 @@ namespace DirectShow
             }
         }
 
+        public void clear_buffer()
+        {
+            ((IMemSinkSettings)psiMemoryFilter).clear();
+        }
+
         /// <summary>
         /// Return true if data is currently flowing through the graph; false otherwise.
         /// </summary>

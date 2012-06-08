@@ -634,11 +634,20 @@ namespace TSDumper
                 if (dumpParameters.PidList != null && dumpParameters.PidList.Count != 0)
                     increment = 1;
 
+                int buffer_space = graph.BufferSpaceUsed/(1024*1024);
+                if (buffer_space > 40)
+                {
+                    graph.clear_buffer();
+                    
+                }
+             
+
                 int size = graph.DumpFileSize / (1024 * 1024);
                 if (size >= lastSize + increment)
                 {
-                    Logger.Instance.Write("Dump now " + size + "Mb");
+                    Logger.Instance.Write("Record/Buffer sizes: (" + size + "/"+buffer_space+")");
                     worker.ReportProgress((int)size);
+
                     
                     lastSize = size;                    
                 }                
