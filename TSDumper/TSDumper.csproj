@@ -15,7 +15,7 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <ManifestCertificateThumbprint>52C13AB928923FE87DF42887B781F6C19F2FF99C</ManifestCertificateThumbprint>
     <ManifestKeyFile>EPGCollectorGUI_TemporaryKey.pfx</ManifestKeyFile>
-    <GenerateManifests>false</GenerateManifests>
+    <GenerateManifests>true</GenerateManifests>
     <SignManifests>false</SignManifests>
     <StartupObject>
     </StartupObject>
@@ -24,7 +24,7 @@
     </FileUpgradeFlags>
     <OldToolsVersion>3.5</OldToolsVersion>
     <UpgradeBackupLocation />
-    <PublishUrl>publish\</PublishUrl>
+    <PublishUrl>C:\Documents and Settings\Administrator\Desktop\tsdumper.publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
     <UpdateEnabled>false</UpdateEnabled>
@@ -101,6 +101,10 @@
     <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Interop.DVBViewerServer">
+      <HintPath>..\Interop.DVBViewerServer.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -223,7 +227,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Television.ico" />
     <Content Include="tsdump.ico" />
   </ItemGroup>
   <ItemGroup>
@@ -250,6 +253,18 @@
       <Project>{2162B6D8-871F-4B2E-8D97-0FA2C8DA76D1}</Project>
       <Name>DVBServices</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <PublishFile Include="Television.ico">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Exclude</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

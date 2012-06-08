@@ -72,7 +72,7 @@ namespace DomainObjects
         }
 
         private static Logger instance;
-        private static string defaultFileName = "EPG Collector.log";
+        private static string defaultFileName = "TSDumper.log";
         private string logFileName;
 
         public static ArrayList  last_log = new ArrayList();

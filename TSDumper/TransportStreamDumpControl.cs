@@ -226,7 +226,7 @@ namespace TSDumper
 
                 if (last_dump_parameters != null)
                 {
-                    string val = ScriptRunner.run_after_finish(last_dump_parameters.FileName, 0, after_recording_complete_script_path.Text);
+                    string val = ScriptRunner.run_after_finish(last_dump_parameters.FileName, get_active_tuner_idx(), after_recording_complete_script_path.Text);
                 }
                    
 
@@ -251,6 +251,8 @@ namespace TSDumper
             int current_hour = -1;
 
             DumpParameters dp = getDumpParameters();
+
+            restart_times.Clear();
 
             while (!(current_hour == hour && current_minute == minute && current_second == second ))
             {
@@ -337,6 +339,16 @@ namespace TSDumper
             }
 
             return (null);
+        }
+
+        private int get_active_tuner_idx()
+        {
+            Collection<int> selected_tuner_indexes = frequencySelectionControl.selected_tuner_indexes;
+        
+            if (selected_tuner_indexes.Count > 0)
+                return selected_tuner_indexes[0];
+
+            return 0;
         }
 
         private void progressChanged(object sender, ProgressChangedEventArgs e)
@@ -677,7 +689,9 @@ namespace TSDumper
             {
                 if (before_recording_complete_script_path.Text != null)
                 {
-                    string val = ScriptRunner.run_before_start(newFilePath, 0, before_recording_complete_script_path.Text);
+
+
+                    string val = ScriptRunner.run_before_start(newFilePath, get_active_tuner_idx(), before_recording_complete_script_path.Text);
 
                     //MessageBox.Show(val);
                     if (val != null)
@@ -867,7 +881,7 @@ namespace TSDumper
 
                     if (last_dump_parameters != null)
                     {
-                        string val = ScriptRunner.run_after_finish(last_dump_parameters.FileName, 0, after_recording_complete_script_path.Text);
+                        string val = ScriptRunner.run_after_finish(last_dump_parameters.FileName, get_active_tuner_idx(), after_recording_complete_script_path.Text);
                     }
                    
                     start_dump();
