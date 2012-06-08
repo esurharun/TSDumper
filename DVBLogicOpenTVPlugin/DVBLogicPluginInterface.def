@@ -1,7 +1,0 @@
-LIBRARY	"DVBLogicCPPPlugin"
-
-EXPORTS
-    ; Explicit exports can go here
-TVSGetEPGPluginIf
-TVSReleaseEPGPluginIf
-
