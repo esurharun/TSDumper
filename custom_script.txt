@@ -1,0 +1,33 @@
+using System;
+using System.IO;
+
+public class Script : GeneralScriptInterface.IScriptType1
+{
+
+	// Java compatible currentTimeInMillis
+
+	static readonly DateTime Epoch = new DateTime(1970, 1, 1, 0, 0, 0, 0,
+		new System.Globalization.GregorianCalendar(), System.DateTimeKind.Utc);
+
+ 
+
+	public static long CurrentTimeMillis() {
+		return (DateTime.UtcNow.Ticks - Epoch.Ticks) / TimeSpan.TicksPerMillisecond;
+	}
+
+
+	public string before_start(string filepath, int tuner_idx) {
+		return string.Format("{0}\\tsdump_{1}_{2}.ts", Path.GetPathRoot(filepath), tuner_idx,
+                                               CurrentTimeMillis());
+	}
+
+	public string after_finish(string filepath, int tuner_idx) {
+	
+		//string final_filename = string.Format("{0}-{1}.ts",filepath,CurrentTimeMillis());
+	
+		//System.IO.File.Move(filepath,final_filename);
+		
+		return null;
+	}
+
+}

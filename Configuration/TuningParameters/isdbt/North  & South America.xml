@@ -1,0 +1,572 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfChannel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Channel>
+    	<ChannelNumber>2</ChannelNumber>
+	<CarrierFrequency>57000</CarrierFrequency>
+    	<SymbolRate>6000</SymbolRate>
+    	<Modulation>VSB8</Modulation>
+    	<InnerFecRate>Rate2_3</InnerFecRate>
+	<BandWidth>6</BandWidth>
+    	<CollectionType>EIT</CollectionType>
+  </Channel>
+  <Channel>
+    	<ChannelNumber>3</ChannelNumber>
+	<CarrierFrequency>63000</CarrierFrequency>
+    	<SymbolRate>6000</SymbolRate>
+    	<Modulation>VSB8</Modulation>
+    	<InnerFecRate>Rate2_3</InnerFecRate>
+    	<BandWidth>6</BandWidth>
+	<CollectionType>EIT</CollectionType>
+  </Channel>
+  <Channel>
+    	<ChannelNumber>4</ChannelNumber>
+	<CarrierFrequency>69000</CarrierFrequency>
+    	<SymbolRate>6000</SymbolRate>
+    	<Modulation>VSB8</Modulation>
+    	<InnerFecRate>Rate2_3</InnerFecRate>
+	<BandWidth>6</BandWidth>
+    	<CollectionType>EIT</CollectionType>
+  </Channel>
+  <Channel>
+    	<ChannelNumber>5</ChannelNumber>
+	<CarrierFrequency>79000</CarrierFrequency>
+    	<SymbolRate>6000</SymbolRate>
+    	<Modulation>VSB8</Modulation>
+    	<InnerFecRate>Rate2_3</InnerFecRate>
+	<BandWidth>6</BandWidth>
+    	<CollectionType>EIT</CollectionType>
+  </Channel>
+  <Channel>
+    	<ChannelNumber>6</ChannelNumber>
+	<CarrierFrequency>85000</CarrierFrequency>
+    	<SymbolRate>6000</SymbolRate>
+    	<Modulation>VSB8</Modulation>
+    	<InnerFecRate>Rate2_3</InnerFecRate>
+    	<BandWidth>6</BandWidth>
+	<CollectionType>EIT</CollectionType>
+  </Channel>
+  <Channel>
+    	<ChannelNumber>7</ChannelNumber>
+	<CarrierFrequency>177000</CarrierFrequency>
+    	<SymbolRate>6000</SymbolRate>
+    	<Modulation>VSB8</Modulation>
+    	<InnerFecRate>Rate2_3</InnerFecRate>
+	<BandWidth>6</BandWidth>
+    	<CollectionType>EIT</CollectionType>
+  </Channel>
+  <Channel>
+    	<ChannelNumber>8</ChannelNumber>
+	<CarrierFrequency>183000</CarrierFrequency>
+    	<SymbolRate>6000</SymbolRate>
+    	<Modulation>VSB8</Modulation>
+    	<InnerFecRate>Rate2_3</InnerFecRate>
+	<BandWidth>6</BandWidth>
+    	<CollectionType>EIT</CollectionType>
+  </Channel>
+  <Channel>
+    	<ChannelNumber>9</ChannelNumber>
+	<CarrierFrequency>189000</CarrierFrequency>
+    	<SymbolRate>6000</SymbolRate>
+    	<Modulation>VSB8</Modulation>
+    	<InnerFecRate>Rate2_3</InnerFecRate>
+	<BandWidth>6</BandWidth>
+    	<CollectionType>EIT</CollectionType>
+  </Channel>
+  <Channel>
+    	<ChannelNumber>10</ChannelNumber>
+	<CarrierFrequency>195000</CarrierFrequency>
+    	<SymbolRate>6000</SymbolRate>
+    	<Modulation>VSB8</Modulation>
+    	<InnerFecRate>Rate2_3</InnerFecRate>
+    	<BandWidth>6</BandWidth>
+	<CollectionType>EIT</CollectionType>
+  </Channel>
+  <Channel>
+    	<ChannelNumber>11</ChannelNumber>
+	<CarrierFrequency>201000</CarrierFrequency>
+    	<SymbolRate>6000</SymbolRate>
+    	<Modulation>VSB8</Modulation>
+    	<InnerFecRate>Rate2_3</InnerFecRate>
+	<BandWidth>6</BandWidth>
+    	<CollectionType>EIT</CollectionType>
+  </Channel>
+  <Channel>
+    	<ChannelNumber>12</ChannelNumber>
+	<CarrierFrequency>207000</CarrierFrequency>
+    	<SymbolRate>6000</SymbolRate>
+    	<Modulation>VSB8</Modulation>
+    	<InnerFecRate>Rate2_3</InnerFecRate>
+	<BandWidth>6</BandWidth>
+    	<CollectionType>EIT</CollectionType>
+  </Channel>
+  <Channel>
+    	<ChannelNumber>13</ChannelNumber>
+	<CarrierFrequency>213000</CarrierFrequency>
+    	<SymbolRate>6000</SymbolRate>
+    	<Modulation>VSB8</Modulation>
+    	<InnerFecRate>Rate2_3</InnerFecRate>
+	<BandWidth>6</BandWidth>
+    	<CollectionType>EIT</CollectionType>
+  </Channel>
+  <Channel>
+    	<ChannelNumber>14</ChannelNumber>
+	<CarrierFrequency>473000</CarrierFrequency>
+    	<SymbolRate>6000</SymbolRate>
+    	<Modulation>VSB8</Modulation>
+    	<InnerFecRate>Rate2_3</InnerFecRate>
+	<BandWidth>6</BandWidth>
+    	<CollectionType>EIT</CollectionType>
+  </Channel>
+  <Channel>
+    	<ChannelNumber>15</ChannelNumber>
+	<CarrierFrequency>479000</CarrierFrequency>
+    	<SymbolRate>6000</SymbolRate>
+    	<Modulation>VSB8</Modulation>
+    	<InnerFecRate>Rate2_3</InnerFecRate>
+	<BandWidth>6</BandWidth>
+    	<CollectionType>EIT</CollectionType>
+  </Channel>
+  <Channel>
+    	<ChannelNumber>16</ChannelNumber>
+	<CarrierFrequency>485000</CarrierFrequency>
+    	<SymbolRate>6000</SymbolRate>
+    	<Modulation>VSB8</Modulation>
+    	<InnerFecRate>Rate2_3</InnerFecRate>
+	<BandWidth>6</BandWidth>
+    	<CollectionType>EIT</CollectionType>
+  </Channel>
+  <Channel>
+    	<ChannelNumber>17</ChannelNumber>
+	<CarrierFrequency>491000</CarrierFrequency>
+    	<SymbolRate>6000</SymbolRate>
+    	<Modulation>VSB8</Modulation>
+    	<InnerFecRate>Rate2_3</InnerFecRate>
+	<BandWidth>6</BandWidth>
+    	<CollectionType>EIT</CollectionType>
+  </Channel>
+  <Channel>
+    	<ChannelNumber>18</ChannelNumber>
+	<CarrierFrequency>497000</CarrierFrequency>
+    	<SymbolRate>6000</SymbolRate>
+    	<Modulation>VSB8</Modulation>
+    	<InnerFecRate>Rate2_3</InnerFecRate>
+	<BandWidth>6</BandWidth>
+    	<CollectionType>EIT</CollectionType>
+  </Channel>
+  <Channel>
+    	<ChannelNumber>19</ChannelNumber>
+	<CarrierFrequency>503000</CarrierFrequency>
+    	<SymbolRate>6000</SymbolRate>
+    	<Modulation>VSB8</Modulation>
+    	<InnerFecRate>Rate2_3</InnerFecRate>
+	<BandWidth>6</BandWidth>
+    	<CollectionType>EIT</CollectionType>
+  </Channel>
+  <Channel>
+    	<ChannelNumber>20</ChannelNumber>
+	<CarrierFrequency>509000</CarrierFrequency>
+    	<SymbolRate>6000</SymbolRate>
+    	<Modulation>VSB8</Modulation>
+    	<InnerFecRate>Rate2_3</InnerFecRate>
+	<BandWidth>6</BandWidth>
+    	<CollectionType>EIT</CollectionType>
+  </Channel>
+  <Channel>
+    	<ChannelNumber>21</ChannelNumber>
+	<CarrierFrequency>512000</CarrierFrequency>
+    	<SymbolRate>6000</SymbolRate>
+    	<Modulation>VSB8</Modulation>
+    	<InnerFecRate>Rate2_3</InnerFecRate>
+	<BandWidth>6</BandWidth>
+    	<CollectionType>EIT</CollectionType>
+  </Channel>
+  <Channel>
+    	<ChannelNumber>22</ChannelNumber>
+	<CarrierFrequency>521000</CarrierFrequency>
+    	<SymbolRate>6000</SymbolRate>
+    	<Modulation>VSB8</Modulation>
+    	<InnerFecRate>Rate2_3</InnerFecRate>
+	<BandWidth>6</BandWidth>
+    	<CollectionType>EIT</CollectionType>
+  </Channel>
+  <Channel>
+    	<ChannelNumber>23</ChannelNumber>
+	<CarrierFrequency>527000</CarrierFrequency>
+    	<SymbolRate>6000</SymbolRate>
+    	<Modulation>VSB8</Modulation>
+    	<InnerFecRate>Rate2_3</InnerFecRate>
+	<BandWidth>6</BandWidth>
+    	<CollectionType>EIT</CollectionType>
+  </Channel>
+  <Channel>
+    	<ChannelNumber>24</ChannelNumber>
+	<CarrierFrequency>533000</CarrierFrequency>
+    	<SymbolRate>6000</SymbolRate>
+    	<Modulation>VSB8</Modulation>
+    	<InnerFecRate>Rate2_3</InnerFecRate>
+	<BandWidth>6</BandWidth>
+    	<CollectionType>EIT</CollectionType>
+  </Channel>
+  <Channel>
+    	<ChannelNumber>25</ChannelNumber>
+	<CarrierFrequency>539000</CarrierFrequency>
+    	<SymbolRate>6000</SymbolRate>
+    	<Modulation>VSB8</Modulation>
+    	<InnerFecRate>Rate2_3</InnerFecRate>
+	<BandWidth>6</BandWidth>
+    	<CollectionType>EIT</CollectionType>
+  </Channel>
+  <Channel>
+    	<ChannelNumber>26</ChannelNumber>
+	<CarrierFrequency>545000</CarrierFrequency>
+    	<SymbolRate>6000</SymbolRate>
+    	<Modulation>VSB8</Modulation>
+    	<InnerFecRate>Rate2_3</InnerFecRate>
+	<BandWidth>6</BandWidth>
+    	<CollectionType>EIT</CollectionType>
+  </Channel>
+  <Channel>
+    	<ChannelNumber>27</ChannelNumber>
+	<CarrierFrequency>551000</CarrierFrequency>
+    	<SymbolRate>6000</SymbolRate>
+    	<Modulation>VSB8</Modulation>
+    	<InnerFecRate>Rate2_3</InnerFecRate>
+	<BandWidth>6</BandWidth>
+    	<CollectionType>EIT</CollectionType>
+  </Channel>
+  <Channel>
+    	<ChannelNumber>28</ChannelNumber>
+	<CarrierFrequency>557000</CarrierFrequency>
+    	<SymbolRate>6000</SymbolRate>
+    	<Modulation>VSB8</Modulation>
+    	<InnerFecRate>Rate2_3</InnerFecRate>
+	<BandWidth>6</BandWidth>
+    	<CollectionType>EIT</CollectionType>
+  </Channel>
+  <Channel>
+    	<ChannelNumber>29</ChannelNumber>
+	<CarrierFrequency>563000</CarrierFrequency>
+    	<SymbolRate>6000</SymbolRate>
+    	<Modulation>VSB8</Modulation>
+    	<InnerFecRate>Rate2_3</InnerFecRate>
+	<BandWidth>6</BandWidth>
+    	<CollectionType>EIT</CollectionType>
+  </Channel>
+  <Channel>
+    	<ChannelNumber>30</ChannelNumber>
+	<CarrierFrequency>569000</CarrierFrequency>
+    	<SymbolRate>6000</SymbolRate>
+    	<Modulation>VSB8</Modulation>
+    	<InnerFecRate>Rate2_3</InnerFecRate>
+	<BandWidth>6</BandWidth>
+    	<CollectionType>EIT</CollectionType>
+  </Channel>
+  <Channel>
+    	<ChannelNumber>31</ChannelNumber>
+	<CarrierFrequency>575000</CarrierFrequency>
+    	<SymbolRate>6000</SymbolRate>
+    	<Modulation>VSB8</Modulation>
+    	<InnerFecRate>Rate2_3</InnerFecRate>
+	<BandWidth>6</BandWidth>
+    	<CollectionType>EIT</CollectionType>
+  </Channel>
+  <Channel>
+    	<ChannelNumber>32</ChannelNumber>
+	<CarrierFrequency>581000</CarrierFrequency>
+    	<SymbolRate>6000</SymbolRate>
+    	<Modulation>VSB8</Modulation>
+    	<InnerFecRate>Rate2_3</InnerFecRate>
+	<BandWidth>6</BandWidth>
+    	<CollectionType>EIT</CollectionType>
+  </Channel>
+  <Channel>
+    	<ChannelNumber>33</ChannelNumber>
+	<CarrierFrequency>587000</CarrierFrequency>
+    	<SymbolRate>6000</SymbolRate>
+    	<Modulation>VSB8</Modulation>
+    	<InnerFecRate>Rate2_3</InnerFecRate>
+	<BandWidth>6</BandWidth>
+    	<CollectionType>EIT</CollectionType>
+  </Channel>
+  <Channel>
+    	<ChannelNumber>34</ChannelNumber>
+	<CarrierFrequency>593000</CarrierFrequency>
+    	<SymbolRate>6000</SymbolRate>
+    	<Modulation>VSB8</Modulation>
+    	<InnerFecRate>Rate2_3</InnerFecRate>
+	<BandWidth>6</BandWidth>
+    	<CollectionType>EIT</CollectionType>
+  </Channel>
+  <Channel>
+    	<ChannelNumber>35</ChannelNumber>
+	<CarrierFrequency>599000</CarrierFrequency>
+    	<SymbolRate>6000</SymbolRate>
+    	<Modulation>VSB8</Modulation>
+    	<InnerFecRate>Rate2_3</InnerFecRate>
+	<BandWidth>6</BandWidth>
+    	<CollectionType>EIT</CollectionType>
+  </Channel>
+  <Channel>
+    	<ChannelNumber>36</ChannelNumber>
+	<CarrierFrequency>605000</CarrierFrequency>
+    	<SymbolRate>6000</SymbolRate>
+    	<Modulation>VSB8</Modulation>
+    	<InnerFecRate>Rate2_3</InnerFecRate>
+	<BandWidth>6</BandWidth>
+    	<CollectionType>EIT</CollectionType>
+  </Channel>
+  <Channel>
+    	<ChannelNumber>38</ChannelNumber>
+	<CarrierFrequency>617000</CarrierFrequency>
+    	<SymbolRate>6000</SymbolRate>
+    	<Modulation>VSB8</Modulation>
+    	<InnerFecRate>Rate2_3</InnerFecRate>
+	<BandWidth>6</BandWidth>
+    	<CollectionType>EIT</CollectionType>
+  </Channel>
+  <Channel>
+    	<ChannelNumber>39</ChannelNumber>
+	<CarrierFrequency>623000</CarrierFrequency>
+    	<SymbolRate>6000</SymbolRate>
+    	<Modulation>VSB8</Modulation>
+    	<InnerFecRate>Rate2_3</InnerFecRate>
+	<BandWidth>6</BandWidth>
+    	<CollectionType>EIT</CollectionType>
+  </Channel>
+  <Channel>
+    	<ChannelNumber>40</ChannelNumber>
+	<CarrierFrequency>629000</CarrierFrequency>
+    	<SymbolRate>6000</SymbolRate>
+    	<Modulation>VSB8</Modulation>
+    	<InnerFecRate>Rate2_3</InnerFecRate>
+	<BandWidth>6</BandWidth>
+    	<CollectionType>EIT</CollectionType>
+  </Channel>
+  <Channel>
+    	<ChannelNumber>41</ChannelNumber>
+	<CarrierFrequency>635000</CarrierFrequency>
+    	<SymbolRate>6000</SymbolRate>
+    	<Modulation>VSB8</Modulation>
+    	<InnerFecRate>Rate2_3</InnerFecRate>
+	<BandWidth>6</BandWidth>
+    	<CollectionType>EIT</CollectionType>
+  </Channel>
+  <Channel>
+    	<ChannelNumber>42</ChannelNumber>
+	<CarrierFrequency>641000</CarrierFrequency>
+    	<SymbolRate>6000</SymbolRate>
+    	<Modulation>VSB8</Modulation>
+    	<InnerFecRate>Rate2_3</InnerFecRate>
+	<BandWidth>6</BandWidth>
+    	<CollectionType>EIT</CollectionType>
+  </Channel>
+  <Channel>
+    	<ChannelNumber>43</ChannelNumber>
+	<CarrierFrequency>647000</CarrierFrequency>
+    	<SymbolRate>6000</SymbolRate>
+    	<Modulation>VSB8</Modulation>
+    	<InnerFecRate>Rate2_3</InnerFecRate>
+	<BandWidth>6</BandWidth>
+    	<CollectionType>EIT</CollectionType>
+  </Channel>
+  <Channel>
+    	<ChannelNumber>44</ChannelNumber>
+	<CarrierFrequency>653000</CarrierFrequency>
+    	<SymbolRate>6000</SymbolRate>
+    	<Modulation>VSB8</Modulation>
+    	<InnerFecRate>Rate2_3</InnerFecRate>
+	<BandWidth>6</BandWidth>
+    	<CollectionType>EIT</CollectionType>
+  </Channel>
+  <Channel>
+    	<ChannelNumber>45</ChannelNumber>
+	<CarrierFrequency>659000</CarrierFrequency>
+    	<SymbolRate>6000</SymbolRate>
+    	<Modulation>VSB8</Modulation>
+    	<InnerFecRate>Rate2_3</InnerFecRate>
+	<BandWidth>6</BandWidth>
+    	<CollectionType>EIT</CollectionType>
+  </Channel>
+  <Channel>
+    	<ChannelNumber>46</ChannelNumber>
+	<CarrierFrequency>665000</CarrierFrequency>
+    	<SymbolRate>6000</SymbolRate>
+    	<Modulation>VSB8</Modulation>
+    	<InnerFecRate>Rate2_3</InnerFecRate>
+	<BandWidth>6</BandWidth>
+    	<CollectionType>EIT</CollectionType>
+  </Channel>
+  <Channel>
+    	<ChannelNumber>47</ChannelNumber>
+	<CarrierFrequency>671000</CarrierFrequency>
+    	<SymbolRate>6000</SymbolRate>
+    	<Modulation>VSB8</Modulation>
+    	<InnerFecRate>Rate2_3</InnerFecRate>
+	<BandWidth>6</BandWidth>
+    	<CollectionType>EIT</CollectionType>
+  </Channel>
+  <Channel>
+    	<ChannelNumber>48</ChannelNumber>
+	<CarrierFrequency>677000</CarrierFrequency>
+    	<SymbolRate>6000</SymbolRate>
+    	<Modulation>VSB8</Modulation>
+    	<InnerFecRate>Rate2_3</InnerFecRate>
+	<BandWidth>6</BandWidth>
+    	<CollectionType>EIT</CollectionType>
+  </Channel>
+  <Channel>
+    	<ChannelNumber>49</ChannelNumber>
+	<CarrierFrequency>683000</CarrierFrequency>
+    	<SymbolRate>6000</SymbolRate>
+    	<Modulation>VSB8</Modulation>
+    	<InnerFecRate>Rate2_3</InnerFecRate>
+	<BandWidth>6</BandWidth>
+    	<CollectionType>EIT</CollectionType>
+  </Channel>
+  <Channel>
+    	<ChannelNumber>50</ChannelNumber>
+	<CarrierFrequency>689000</CarrierFrequency>
+    	<SymbolRate>6000</SymbolRate>
+    	<Modulation>VSB8</Modulation>
+    	<InnerFecRate>Rate2_3</InnerFecRate>
+	<BandWidth>6</BandWidth>
+    	<CollectionType>EIT</CollectionType>
+  </Channel>
+  <Channel>
+    	<ChannelNumber>51</ChannelNumber>
+	<CarrierFrequency>695000</CarrierFrequency>
+    	<SymbolRate>6000</SymbolRate>
+    	<Modulation>VSB8</Modulation>
+    	<InnerFecRate>Rate2_3</InnerFecRate>
+	<BandWidth>6</BandWidth>
+    	<CollectionType>EIT</CollectionType>
+  </Channel>
+  <Channel>
+    	<ChannelNumber>52</ChannelNumber>
+	<CarrierFrequency>701000</CarrierFrequency>
+    	<SymbolRate>6000</SymbolRate>
+    	<Modulation>VSB8</Modulation>
+    	<InnerFecRate>Rate2_3</InnerFecRate>
+	<BandWidth>6</BandWidth>
+    	<CollectionType>EIT</CollectionType>
+  </Channel>
+  <Channel>
+    	<ChannelNumber>53</ChannelNumber>
+	<CarrierFrequency>707000</CarrierFrequency>
+    	<SymbolRate>6000</SymbolRate>
+    	<Modulation>VSB8</Modulation>
+    	<InnerFecRate>Rate2_3</InnerFecRate>
+	<BandWidth>6</BandWidth>
+    	<CollectionType>EIT</CollectionType>
+  </Channel>
+  <Channel>
+    	<ChannelNumber>54</ChannelNumber>
+	<CarrierFrequency>713000</CarrierFrequency>
+    	<SymbolRate>6000</SymbolRate>
+    	<Modulation>VSB8</Modulation>
+    	<InnerFecRate>Rate2_3</InnerFecRate>
+	<BandWidth>6</BandWidth>
+    	<CollectionType>EIT</CollectionType>
+  </Channel>
+  <Channel>
+    	<ChannelNumber>55</ChannelNumber>
+	<CarrierFrequency>719000</CarrierFrequency>
+    	<SymbolRate>6000</SymbolRate>
+    	<Modulation>VSB8</Modulation>
+    	<InnerFecRate>Rate2_3</InnerFecRate>
+	<BandWidth>6</BandWidth>
+    	<CollectionType>EIT</CollectionType>
+  </Channel>
+  <Channel>
+    	<ChannelNumber>56</ChannelNumber>
+	<CarrierFrequency>725000</CarrierFrequency>
+    	<SymbolRate>6000</SymbolRate>
+    	<Modulation>VSB8</Modulation>
+    	<InnerFecRate>Rate2_3</InnerFecRate>
+	<BandWidth>6</BandWidth>
+    	<CollectionType>EIT</CollectionType>
+  </Channel>
+  <Channel>
+    	<ChannelNumber>57</ChannelNumber>
+	<CarrierFrequency>731000</CarrierFrequency>
+    	<SymbolRate>6000</SymbolRate>
+    	<Modulation>VSB8</Modulation>
+    	<InnerFecRate>Rate2_3</InnerFecRate>
+	<BandWidth>6</BandWidth>
+    	<CollectionType>EIT</CollectionType>
+  </Channel>
+  <Channel>
+    	<ChannelNumber>58</ChannelNumber>
+	<CarrierFrequency>737000</CarrierFrequency>
+    	<SymbolRate>6000</SymbolRate>
+    	<Modulation>VSB8</Modulation>
+    	<InnerFecRate>Rate2_3</InnerFecRate>
+	<BandWidth>6</BandWidth>
+    	<CollectionType>EIT</CollectionType>
+  </Channel>
+  <Channel>
+    	<ChannelNumber>59</ChannelNumber>
+	<CarrierFrequency>743000</CarrierFrequency>
+    	<SymbolRate>6000</SymbolRate>
+    	<Modulation>VSB8</Modulation>
+    	<InnerFecRate>Rate2_3</InnerFecRate>
+	<BandWidth>6</BandWidth>
+    	<CollectionType>EIT</CollectionType>
+  </Channel>
+</ArrayOfChannel> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

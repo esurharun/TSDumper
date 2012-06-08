@@ -1,0 +1,353 @@
+////////////////////////////////////////////////////////////////////////////////// 
+//                                                                              //
+//      Copyright (C) 2005-2010 nzsjb/ukkiwi                                    //
+//                                                                              //
+//  This Program is free software; you can redistribute it and/or modify        //
+//  it under the terms of the GNU General Public License as published by        //
+//  the Free Software Foundation; either version 2, or (at your option)         //
+//  any later version.                                                          //
+//                                                                              //
+//  This Program is distributed in the hope that it will be useful,             //
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of              //
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the                //
+//  GNU General Public License for more details.                                //
+//                                                                              //
+//  You should have received a copy of the GNU General Public License           //
+//  along with GNU Make; see the file COPYING.  If not, write to                //
+//  the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.       //
+//  http://www.gnu.org/copyleft/gpl.html                                        //
+//                                                                              //  
+//////////////////////////////////////////////////////////////////////////////////
+
+using System;
+using System.Collections.ObjectModel;
+using System.IO;
+using System.Text;
+using System.Globalization;
+
+using DomainObjects;
+
+namespace DVBServices
+{
+    /// <summary>
+    /// A FreeSat attribute structure.
+    /// </summary>
+    public struct fsattab
+    {
+        /// <summary>
+        /// The attribute value.
+        /// </summary>
+        public int value;
+        /// <summary>
+        /// The next character.
+        /// </summary>
+        public char next;
+        /// <summary>
+        /// 
+        /// </summary>
+        public short bits;
+    }
+
+    /// <summary>
+    /// The class that describes a dictionary entry for FreeSat
+    /// </summary>
+    public class FreeSatDictionaryEntry
+    {
+        /// <summary>
+        /// The stop code.
+        /// </summary>
+        public const int STOP = 0x02;
+        /// <summary>
+        /// The start code.
+        /// </summary>
+        public const int START = 0x00;
+        /// <summary>
+        /// The escape code.
+        /// </summary>
+        public const int ESCAPE = 0x01;
+
+        /// <summary>
+        /// The decode tables.
+        /// </summary>
+        public static fsattab[, ,] tables;
+        /// <summary>
+        /// 
+        /// </summary>
+        public static int[,] table_size = new int[2, 256];
+
+        private static string fileTranslate1 = RunParameters.ConfigDirectory + @"\FreeSat_T1.cfg";
+        private static string fileTranslate2 = RunParameters.ConfigDirectory + @"\FreeSat_T2.cfg";
+
+        /// <summary>
+        /// Get the decode string.
+        /// </summary>
+        public string Decode { get { return (decode); } }
+
+        private string decode;
+        private string pattern;
+        private static bool loaded;
+
+        /// <summary>
+        /// Initialize a new instance of the FreesatDictionaryEntry class.
+        /// </summary>
+        /// <param name="pattern">The Huffman bit pattern.</param>
+        /// <param name="decode">The decode for the bit pattern.</param>
+        public FreeSatDictionaryEntry(string pattern, string decode)
+        {
+            this.pattern = pattern;
+            this.decode = decode;
+        }
+
+        /// <summary>
+        /// Load the dictionary entries.
+        /// </summary>
+        public static void Load()
+        {
+            if (loaded)
+                return;
+
+            /*tables = new fsattab[2, 256, 256];
+
+            Logger.Instance.Write("Loading FreeSat translation table from " + fileTranslate1);
+            try
+            {
+                loadFile(0, fileTranslate1);
+            }
+            catch (IOException)
+            {
+                Logger.Instance.Write("FreeSat File " + fileTranslate1 + " not available");
+                return;
+            }
+
+            Logger.Instance.Write("Loading FreeSat translation table from " + fileTranslate2);
+            try
+            {
+                loadFile(1, fileTranslate2);
+            }
+            catch (IOException)
+            {
+                Logger.Instance.Write("FreeSat File " + fileTranslate2 + " not available");
+                return;
+            }
+
+            Logger.Instance.Write("FreeSat translation tables loaded");*/
+
+            FreeSatDictionaryEntry1.Load();
+
+            loaded = true;
+        }
+
+        private static void loadFile(int tableId, string filename)
+        {
+            FileStream fileStream = new FileStream(filename, FileMode.Open, FileAccess.Read);
+            StreamReader streamReader = new StreamReader(fileStream);
+
+            int cnt = 0;
+
+            while (!streamReader.EndOfStream)
+            {
+                string line = streamReader.ReadLine();
+
+                if (line != string.Empty && !line.StartsWith("####"))
+                {
+                    string[] parts = line.Split(new char[] { ':' });
+                    if (parts.Length == 4)
+                    {
+                        int bin_len = parts[1].Length;
+                        int from_char = Convert.ToInt32(resolveChar(parts[0]));
+                        char to_char = resolveChar(parts[2]);
+                        long bin = decodeBinary(parts[1]);
+                        cnt = table_size[tableId, from_char];
+
+                        tables[tableId, from_char, cnt].value = (int)bin;
+                        tables[tableId, from_char, cnt].next = to_char;
+                        tables[tableId, from_char, cnt].bits = (short)bin_len;
+                        table_size[tableId, from_char]++;
+                    }
+                }
+            }
+
+            /*fsattab test = tables[tableId, 122, 10];*/
+
+            streamReader.Close();
+            fileStream.Close();
+        }
+
+        /// <summary>
+        /// Decode a FreeSat text string.
+        /// </summary>
+        /// <param name="src">The encoded string.</param>
+        /// <param name="length">The length of the string to be decoded.</param>
+        /// <returns>The decoded string.</returns>
+        public static string DecodeData(byte[] src, int length)
+        {
+            return(FreeSatDictionaryEntry1.DecodeData(src));
+
+            
+            /*int tableid = src[1] - 1;
+            uint value = 0;
+            int byteNum = 2;
+            int bit = 0;
+            int lastch = START;
+            string uncompressedString = "";
+
+            int size = src.Length - 1;
+
+            while (byteNum < 6 && byteNum < size)
+            {
+                value |= (uint)src[byteNum] << ((5 - byteNum) * 8);
+                byteNum++;
+            }
+            
+            do
+            {
+                bool found = false;
+                uint bitShift = 0;
+                char nextCh = (char)STOP;
+
+                if (lastch == ESCAPE)
+                {
+                    nextCh = (char)((value >> 24) & 0xff);
+                    // Encoded in the next 8 bits. 
+                    // Terminated by the first ASCII character. 
+                    bitShift = 8;
+                    if ((nextCh & 0x80) == 0)
+                    {
+                        if (nextCh < ' ')
+                            nextCh = (char)STOP;
+                        lastch = nextCh;
+                    }
+                    found = true;
+                }
+                else
+                {
+                    uint indx = (uint)lastch;
+
+                    for (uint j = 0; j < table_size[tableid, lastch]; j++)
+                    {
+                        uint mask = 0;
+                        uint maskbit = 0x80000000;
+
+                        string test = getPaddedValue(value);
+                        test = test.Substring(0, tables[tableid, lastch, j].bits);
+                        //value = Convert.ToUInt32(test);
+
+                        for (short kk = 0; kk < tables[tableid, lastch, j].bits; kk++)
+                        {
+                            mask |= maskbit;
+                            maskbit >>= 1;
+                        }
+                        //Console.WriteLine("Mask value =                 " + getPaddedValue(mask));
+                        string test1 = getPaddedValue(mask).Substring(0, tables[tableid, lastch, j].bits);
+                        uint int1 = Convert.ToUInt32(test, 2);
+                        uint int2 = Convert.ToUInt32(test1, 2);
+
+                        if ((int1 & int2) == tables[tableid, lastch, j].value)
+                        {
+                            nextCh = tables[tableid, lastch, j].next;
+                            bitShift = (uint)tables[tableid, lastch, j].bits;
+                            found = true;
+                            lastch = nextCh;
+                            //Console.WriteLine("Biwise AND =                 " + getPaddedValue(value & mask) + " MatchVal=" + tables[tableid, lastch, j].value);
+                            break;
+                        }
+
+                    }
+                }
+
+                if (found)
+                {
+                    if (nextCh != STOP && nextCh != ESCAPE)
+                        uncompressedString += nextCh;
+
+
+                    // Shift up by the number of bits.
+                    for (uint b = 0; b < bitShift; b++)
+                    {
+                        //Console.WriteLine("Match value = " + Convert.ToString(value, 2)); 
+                        value = (value << 1) & 0xfffffffe;
+                        //Console.WriteLine("Found : (" + uncompressed[p-1] + ") << 1 value =     " + getPaddedValue(value));
+                        if (byteNum < size)
+                        {
+                            value |= (uint)(src[byteNum] >> (7 - bit)) & 1;
+                            //Console.WriteLine("Found : >> (7 - bit) value = " + getPaddedValue(value));
+                        }
+
+                        if (bit == 7)
+                        {
+                            bit = 0;
+                            byteNum++;
+                        }
+                        else bit++;
+                    }
+                    //Console.WriteLine("New value =                  " + getPaddedValue(value));
+
+                }
+                else
+                {
+                    // Entry missing in table.
+                    Logger.Instance.Write("FreeSat decoding failed - entry missing from table");
+                    Logger.Instance.Write("Original data: " + Utils.ConvertToHex(src));
+                    Logger.Instance.Write("Decoded data: " + uncompressedString);
+                    return null;
+                }
+
+            } while (lastch != STOP && value != 0);
+
+            return uncompressedString;*/
+        }
+
+        private static string getPaddedValue(uint value)
+        {
+            string temp = Convert.ToString(value, 2);
+
+            for (int x = temp.Length; x < 32; x++)
+            {
+                temp = "0" + temp;
+            }
+            return temp;
+        }
+
+        private static char resolveChar(string input)
+        {
+            int val = new int();
+            char myChar = input[0]; //default value
+
+            switch (input.ToUpper())
+            {
+                case "START":
+                    myChar = (char)0x00;
+                    break;
+                case "STOP":
+                    myChar = (char)0x02;
+                    break;
+                case "ESCAPE":
+                    myChar = (char)0x01;
+                    break;
+                default:
+                    try
+                    {
+                        if (input.Substring(0, 2) == "0x")
+                        {
+                            val = int.Parse(input.Substring(2, input.Length - 2), NumberStyles.AllowHexSpecifier); //ASCII for the input character
+                        }
+                        myChar = (char)val;
+                    }
+                    catch
+                    {
+
+                    }
+                    break;
+            }
+
+            return (myChar);
+        }
+
+        private static long decodeBinary(string input)
+        {
+            long l = Convert.ToInt64(input, 2);
+            int i = (int)l;
+            return i;
+        }
+    }
+}
