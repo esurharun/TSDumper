@@ -29,4 +29,14 @@ seconds is 7200secs (2 hours), it will restart-recording at 04:00 so recordings 
 
 For example if you want to record 30minutes basis, you can just switch start hour to 00:30 and give 1800secs.
 
+***TODO***
+=============================
+
+- Automatic searching frequencies and getting pids for easier selection of channels
+- Pagination based multi-tuner recording interface
+- More advanced view of signal rates, recording/buffer sizes with progress bars
+- FFMpeg integration (maybe)
+
+
+
 For support please contact me at esur/\./\harun at gmail/\./\com
