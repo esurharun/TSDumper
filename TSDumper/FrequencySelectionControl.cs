@@ -36,71 +36,7 @@ namespace TSDumper
     public partial class FrequencySelectionControl : UserControl
     {
 
-        internal Collection<int> selected_tuner_indexes
-        {
-            get
-            {
-                Collection<int> tuners = new Collection<int>();
-
-                for (int index = 0; index < clbTuners.Items.Count; index++)
-                {
-                    bool isChecked = clbTuners.GetItemChecked(index);
-
-                    if (isChecked)
-                        tuners.Add(index);
-                    
-                }
-
-                return tuners;
-            }
-
-            set
-            {
-                for (int i = 0; i < clbTuners.Items.Count;i++ )
-                {
-                    clbTuners.SetItemChecked(i,false);
-                }
-
-                for (int i = 0; i < value.Count; i++)
-                {
-
-                    clbTuners.SetItemChecked(value[i] , true);
-                }
-            }
-        }
-
-        internal Collection<int> Tuners
-        {
-            get
-            {
-                int selectedTunerCount = 0;
-
-                for (int index = 0; index < clbTuners.Items.Count; index++)
-                {
-                    bool isChecked = clbTuners.GetItemChecked(index);
-                    if (isChecked)
-                        selectedTunerCount++;
-                }
-
-                if (selectedTunerCount == 0)
-                    return (null);
-
-                Collection<int> tuners = new Collection<int>();
-
-                for (int index = 1; index < clbTuners.Items.Count; index++)
-                {
-                    if (clbTuners.GetItemChecked(index))
-                        tuners.Add(Tuner.TunerCollection.IndexOf((Tuner)clbTuners.Items[index]) + 1);
-                }
-
-                return (tuners);
-            }
-
-            set
-            {
-                
-            }
-        }
+        
 
         internal int LNBLowBandFrequency
         {
@@ -226,14 +162,21 @@ namespace TSDumper
         internal bool SwitchAfterPlay { get { return (cbSwitchAfterPlay.Checked); } set { cbSwitchAfterPlay.Checked = value; } }
         internal bool RepeatDiseqc { get { return (cbRepeatDiseqc.Checked); } set { cbRepeatDiseqc.Checked = value; } }
 
+        internal Tuner tuner { get; set; }
+
 
         public FrequencySelectionControl()
         {
             InitializeComponent();
         }
 
-        internal void Process()
+        internal void Process(Tuner _tuner)
         {
+
+            this.tuner = _tuner;
+
+            lblTuner.Text = String.Format("({0}) {1}",(int)_tuner.Tag, _tuner.Name);
+
             Satellite.Load(Path.Combine(RunParameters.ConfigDirectory, Path.Combine("TuningParameters", "dvbs")) + Path.DirectorySeparatorChar);
             TerrestrialProvider.Load(Path.Combine(RunParameters.ConfigDirectory, Path.Combine("TuningParameters", "dvbt")) + Path.DirectorySeparatorChar);
             CableProvider.Load(Path.Combine(RunParameters.ConfigDirectory, Path.Combine("TuningParameters", "dvbc")) + Path.DirectorySeparatorChar);
@@ -242,18 +185,7 @@ namespace TSDumper
             ISDBSatelliteProvider.Load(Path.Combine(RunParameters.ConfigDirectory, Path.Combine("TuningParameters", "isdbs")) + Path.DirectorySeparatorChar);
             ISDBTerrestrialProvider.Load(Path.Combine(RunParameters.ConfigDirectory, Path.Combine("TuningParameters", "isdbt")) + Path.DirectorySeparatorChar);
         
-            clbTuners.Items.Clear();
-            //clbTuners.Items.Add("Any available Tuner");
-
-            foreach (Tuner tuner in Tuner.TunerCollection)
-            {
-                if (!tuner.Name.ToUpper().Contains("DVBLINK"))
-                    clbTuners.Items.Add(tuner);
-            }
-
-            if (clbTuners.Items.Count > 0)
-              clbTuners.SetItemChecked(0, true);
-
+            
             initializeSatelliteTab();
             initializeTerrestrialTab();
             initializeCableTab();
@@ -424,19 +356,7 @@ namespace TSDumper
             cboISDBTProvider.SelectedItem = cboISDBTProvider.Items[0];
         }
 
-        private void clbTuners_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (clbTuners.SelectedIndices.Count == 0)
-                return;
-
-            if (clbTuners.SelectedIndices[0] == 0)
-            {
-                for (int index = 1; index < clbTuners.Items.Count; index++)
-                    clbTuners.SetItemChecked(index, false);
-            }
-            else
-                clbTuners.SetItemChecked(0, false);
-        }
+        
 
         private void btLNBDefaults_Click(object sender, EventArgs e)
         {
@@ -513,46 +433,8 @@ namespace TSDumper
 
         internal string ValidateForm()
         {
-            Collection<int> tuners = Tuners;
-            if (tuners == null)
-                return ("No tuner selected.");
-
-            bool tunerValid;
-
-            if (tbcDeliverySystem.SelectedTab.Name == "tbpSatellite")
-                tunerValid = checkForTunerType(tuners, TunerNodeType.Satellite);
-            else
-            {
-                if (tbcDeliverySystem.SelectedTab.Name == "tbpTerrestrial")
-                    tunerValid = checkForTunerType(tuners, TunerNodeType.Terrestrial);
-                else
-                {
-                    if (tbcDeliverySystem.SelectedTab.Name == "tbpCable")
-                        tunerValid = checkForTunerType(tuners, TunerNodeType.Cable);
-                    else
-                    {
-                        if (tbcDeliverySystem.SelectedTab.Name == "tbpAtsc")
-                            tunerValid = checkForTunerType(tuners, TunerNodeType.ATSC);
-                        else
-                        {
-                            if (tbcDeliverySystem.SelectedTab.Name == "tbpClearQAM")
-                                tunerValid = checkForTunerType(tuners, TunerNodeType.Cable);
-                            else
-                            {
-                                if (tbcDeliverySystem.SelectedTab.Name == "tbpISDBSatellite")
-                                    tunerValid = checkForTunerType(tuners, TunerNodeType.ISDBS);
-                                else
-                                    tunerValid = checkForTunerType(tuners, TunerNodeType.ISDBT);
-                            }
-                        }
-
-                    }
-                }
-            }
- 
-            if (!tunerValid)
-                return ("The tuner(s) selected do not support the delivery system.");
-
+        
+        
             if (tbcDeliverySystem.SelectedTab.Name == "tbpSatellite")
             {
                 try
@@ -574,18 +456,6 @@ namespace TSDumper
             return (null);
         }
 
-        private bool checkForTunerType(Collection<int> tuners, TunerNodeType tunerNodeType)
-        {
-            if (tuners.Count == 0)
-                return (true);
-
-            foreach (int tuner in tuners)
-            {
-                if (Tuner.TunerCollection[tuner - 1].Supports(tunerNodeType))
-                    return (true);
-            }
-
-            return (false);
-        }
+        
     }
 }

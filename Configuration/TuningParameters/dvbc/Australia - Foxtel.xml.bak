@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfDVBCTuning xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <DVBCTuning>
+    <Frequency>626000</Frequency>
+    <ModulationType>Mod64Qam</ModulationType>
+    <SymbolRate>6950</SymbolRate>
+    <CollectionType>EIT</CollectionType>
+  </DVBCTuning>
+</ArrayOfDVBCTuning>

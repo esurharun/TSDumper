@@ -187,6 +187,17 @@ namespace DomainObjects
             defaultFileName = name;
         } 
 
+
+        public void Write(int tag,string message)
+        {
+
+            string mess = String.Format("[{0}] {1}", tag, message); 
+            
+            Write(mess);
+
+            
+        }
+
         /// <summary>
         /// Write a log record.
         /// </summary>
