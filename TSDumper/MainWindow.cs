@@ -34,7 +34,7 @@ namespace TSDumper
     public partial class MainWindow : Form
     {
         private static MainWindow mainWindow;
-        
+        private static TransportStreamDumpControl tsDumpControl;
         public MainWindow()
         {
             InitializeComponent();
@@ -62,31 +62,21 @@ namespace TSDumper
                 Environment.Exit(10);
             }
 
+        
 
-            //mainTabControl.TabPages.Clear();
-
-            for (int i = 0; i < Tuner.TunerCollection.Count;i++ )
+            if (tsDumpControl == null)
             {
-                Tuner t = Tuner.TunerCollection[i];
-                t.Tag = i;
-                TransportStreamDumpControl tsDumpControl = new TransportStreamDumpControl();
-                TabPage tPage = new TabPage(String.Format("{0}-{1}...",i,t.Name.Substring(0,10)));
-                tPage.Controls.Add(tsDumpControl);
-                tsDumpControl.Dock = DockStyle.Fill;
-                mainTabControl.TabPages.Add(tPage);
-            
-                 Cursor.Current = Cursors.WaitCursor;
-                 tsDumpControl.Process(t);
-                 Cursor.Current = Cursors.Arrow;
-
+                tsDumpControl = new TransportStreamDumpControl();
+                positionControl(tsDumpControl);
             }
 
+            this.Text = tsDumpControl.Heading;
+            tsDumpControl.Tag = new ControlStatus(this.Text);
 
-                
-            //this.Text = tsDumpControl.Heading;
-            //tsDumpControl.Tag = new ControlStatus(this.Text);
+            Cursor.Current = Cursors.WaitCursor;
+            tsDumpControl.Process();
+            Cursor.Current = Cursors.Arrow;
 
-           
 
             Logger.Instance.Write("TSDumper is loaded");
         }
@@ -121,23 +111,6 @@ namespace TSDumper
         {
             //System.Runtime.
             Application.Exit();
-        }
-
-        private void timer1_Tick(object sender, EventArgs e)
-        {
-            //
-
-            var ls = (string[])Logger.last_log.ToArray(typeof(string));
-
-            if (ls.Length > 0)
-            {
-                last_log.Items.AddRange(ls);
-
-
-                last_log.SelectedIndex = last_log.Items.Count - 1;
-
-                Logger.last_log.Clear();
-            }
         }
     }
 }

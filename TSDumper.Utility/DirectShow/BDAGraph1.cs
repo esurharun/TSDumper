@@ -1241,7 +1241,7 @@ namespace DirectShow
             return (null);
         }
 
-        public static BDAGraph checkTunerAvailability(Tuner tuner, TuningSpec tuningSpec, bool repeatDiseqc, bool switchAfterPlay, string dumpFileName)
+        private static BDAGraph checkTunerAvailability(Tuner tuner, TuningSpec tuningSpec, bool repeatDiseqc, bool switchAfterPlay, string dumpFileName)
         {
             if (!RunParameters.Instance.DebugIDs.Contains("USEDVBLINK"))
             {

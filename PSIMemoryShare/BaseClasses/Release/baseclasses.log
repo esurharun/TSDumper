@@ -1,4 +1,4 @@
-﻿Build started 09.06.2012 15:18:34.
+﻿Build started 09.06.2012 13:26:24.
      1>Project "C:\Documents and Settings\Administrator\Desktop\TSDumper\PSIMemoryShare\BaseClasses\baseclasses.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating ".\Release\baseclasses.unsuccessfulbuild" because "AlwaysCreate" was specified.
@@ -81,4 +81,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:02.25
+Time Elapsed 00:00:02.26

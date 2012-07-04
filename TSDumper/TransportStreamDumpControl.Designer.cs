@@ -59,6 +59,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.last_log = new System.Windows.Forms.ListBox();
             this.frequencySelectionControl = new TSDumper.FrequencySelectionControl();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.button4 = new System.Windows.Forms.Button();
@@ -289,9 +290,9 @@
             this.groupBox1.Controls.Add(this.after_recording_complete_script_path);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.button1);
-            this.groupBox1.Location = new System.Drawing.Point(475, 3);
+            this.groupBox1.Location = new System.Drawing.Point(475, 267);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(455, 472);
+            this.groupBox1.Size = new System.Drawing.Size(455, 208);
             this.groupBox1.TabIndex = 313;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Scripts";
@@ -366,6 +367,14 @@
             this.timer1.Interval = 250;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // last_log
+            // 
+            this.last_log.FormattingEnabled = true;
+            this.last_log.Location = new System.Drawing.Point(475, 11);
+            this.last_log.Name = "last_log";
+            this.last_log.Size = new System.Drawing.Size(455, 238);
+            this.last_log.TabIndex = 314;
+            // 
             // frequencySelectionControl
             // 
             this.frequencySelectionControl.Location = new System.Drawing.Point(10, 0);
@@ -409,6 +418,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.last_log);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.pbarProgress);
             this.Controls.Add(this.frequencySelectionControl);
@@ -468,6 +478,7 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.ListBox last_log;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button3;

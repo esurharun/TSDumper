@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.clbTuners = new System.Windows.Forms.CheckedListBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.cbSwitchAfterPlay = new System.Windows.Forms.CheckBox();
             this.cbUseSignalPresent = new System.Windows.Forms.CheckBox();
@@ -49,18 +50,6 @@
             this.label31 = new System.Windows.Forms.Label();
             this.label33 = new System.Windows.Forms.Label();
             this.label32 = new System.Windows.Forms.Label();
-            this.tbpTerrestrial = new System.Windows.Forms.TabPage();
-            this.lblArea = new System.Windows.Forms.Label();
-            this.cboArea = new System.Windows.Forms.ComboBox();
-            this.lblCountry = new System.Windows.Forms.Label();
-            this.cboCountry = new System.Windows.Forms.ComboBox();
-            this.cboDVBTScanningFrequency = new System.Windows.Forms.ComboBox();
-            this.label24 = new System.Windows.Forms.Label();
-            this.tbpCable = new System.Windows.Forms.TabPage();
-            this.label54 = new System.Windows.Forms.Label();
-            this.cboCable = new System.Windows.Forms.ComboBox();
-            this.label52 = new System.Windows.Forms.Label();
-            this.cboCableScanningFrequency = new System.Windows.Forms.ComboBox();
             this.tbpAtsc = new System.Windows.Forms.TabPage();
             this.label50 = new System.Windows.Forms.Label();
             this.cboAtscProvider = new System.Windows.Forms.ComboBox();
@@ -90,36 +79,57 @@
             this.cboISDBTProvider = new System.Windows.Forms.ComboBox();
             this.label68 = new System.Windows.Forms.Label();
             this.cboISDBTScanningFrequency = new System.Windows.Forms.ComboBox();
-            this.lblTuner = new System.Windows.Forms.Label();
+            this.cboCableScanningFrequency = new System.Windows.Forms.ComboBox();
+            this.label52 = new System.Windows.Forms.Label();
+            this.cboCable = new System.Windows.Forms.ComboBox();
+            this.label54 = new System.Windows.Forms.Label();
+            this.tbpCable = new System.Windows.Forms.TabPage();
+            this.label24 = new System.Windows.Forms.Label();
+            this.cboDVBTScanningFrequency = new System.Windows.Forms.ComboBox();
+            this.cboCountry = new System.Windows.Forms.ComboBox();
+            this.lblCountry = new System.Windows.Forms.Label();
+            this.cboArea = new System.Windows.Forms.ComboBox();
+            this.lblArea = new System.Windows.Forms.Label();
+            this.tbpTerrestrial = new System.Windows.Forms.TabPage();
             this.groupBox3.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tbcDeliverySystem.SuspendLayout();
             this.tbpSatellite.SuspendLayout();
-            this.tbpTerrestrial.SuspendLayout();
-            this.tbpCable.SuspendLayout();
             this.tbpAtsc.SuspendLayout();
             this.tbpClearQAM.SuspendLayout();
             this.tbpISDBSatellite.SuspendLayout();
             this.tbpISDBTerrestrial.SuspendLayout();
+            this.tbpCable.SuspendLayout();
+            this.tbpTerrestrial.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.lblTuner);
+            this.groupBox3.Controls.Add(this.clbTuners);
             this.groupBox3.Location = new System.Drawing.Point(6, 5);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(440, 49);
+            this.groupBox3.Size = new System.Drawing.Size(440, 100);
             this.groupBox3.TabIndex = 100;
             this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Tuner";
+            this.groupBox3.Text = "Tuners";
+            // 
+            // clbTuners
+            // 
+            this.clbTuners.CheckOnClick = true;
+            this.clbTuners.FormattingEnabled = true;
+            this.clbTuners.Location = new System.Drawing.Point(13, 19);
+            this.clbTuners.Name = "clbTuners";
+            this.clbTuners.Size = new System.Drawing.Size(412, 64);
+            this.clbTuners.TabIndex = 101;
+            this.clbTuners.SelectedIndexChanged += new System.EventHandler(this.clbTuners_SelectedIndexChanged);
             // 
             // groupBox5
             // 
             this.groupBox5.Controls.Add(this.cbSwitchAfterPlay);
             this.groupBox5.Controls.Add(this.cbUseSignalPresent);
             this.groupBox5.Controls.Add(this.cbRepeatDiseqc);
-            this.groupBox5.Location = new System.Drawing.Point(10, 264);
+            this.groupBox5.Location = new System.Drawing.Point(10, 213);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(379, 89);
             this.groupBox5.TabIndex = 300;
@@ -159,9 +169,9 @@
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.tbcDeliverySystem);
-            this.groupBox1.Location = new System.Drawing.Point(7, 60);
+            this.groupBox1.Location = new System.Drawing.Point(7, 111);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(439, 415);
+            this.groupBox1.Size = new System.Drawing.Size(439, 364);
             this.groupBox1.TabIndex = 200;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Delivery System";
@@ -178,7 +188,7 @@
             this.tbcDeliverySystem.Location = new System.Drawing.Point(12, 24);
             this.tbcDeliverySystem.Name = "tbcDeliverySystem";
             this.tbcDeliverySystem.SelectedIndex = 0;
-            this.tbcDeliverySystem.Size = new System.Drawing.Size(412, 385);
+            this.tbcDeliverySystem.Size = new System.Drawing.Size(412, 334);
             this.tbcDeliverySystem.TabIndex = 201;
             // 
             // tbpSatellite
@@ -200,7 +210,7 @@
             this.tbpSatellite.Location = new System.Drawing.Point(4, 22);
             this.tbpSatellite.Name = "tbpSatellite";
             this.tbpSatellite.Padding = new System.Windows.Forms.Padding(3);
-            this.tbpSatellite.Size = new System.Drawing.Size(404, 359);
+            this.tbpSatellite.Size = new System.Drawing.Size(404, 308);
             this.tbpSatellite.TabIndex = 0;
             this.tbpSatellite.Text = "DVB Satellite";
             this.tbpSatellite.UseVisualStyleBackColor = true;
@@ -333,138 +343,6 @@
             this.label32.Size = new System.Drawing.Size(81, 13);
             this.label32.TabIndex = 121;
             this.label32.Text = "LNB High Band";
-            // 
-            // tbpTerrestrial
-            // 
-            this.tbpTerrestrial.Controls.Add(this.lblArea);
-            this.tbpTerrestrial.Controls.Add(this.cboArea);
-            this.tbpTerrestrial.Controls.Add(this.lblCountry);
-            this.tbpTerrestrial.Controls.Add(this.cboCountry);
-            this.tbpTerrestrial.Controls.Add(this.cboDVBTScanningFrequency);
-            this.tbpTerrestrial.Controls.Add(this.label24);
-            this.tbpTerrestrial.Location = new System.Drawing.Point(4, 22);
-            this.tbpTerrestrial.Name = "tbpTerrestrial";
-            this.tbpTerrestrial.Padding = new System.Windows.Forms.Padding(3);
-            this.tbpTerrestrial.Size = new System.Drawing.Size(404, 308);
-            this.tbpTerrestrial.TabIndex = 1;
-            this.tbpTerrestrial.Text = "DVB Terrestrial";
-            this.tbpTerrestrial.UseVisualStyleBackColor = true;
-            // 
-            // lblArea
-            // 
-            this.lblArea.AutoSize = true;
-            this.lblArea.Location = new System.Drawing.Point(100, 80);
-            this.lblArea.Name = "lblArea";
-            this.lblArea.Size = new System.Drawing.Size(0, 13);
-            this.lblArea.TabIndex = 131;
-            // 
-            // cboArea
-            // 
-            this.cboArea.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-            this.cboArea.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.cboArea.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboArea.FormattingEnabled = true;
-            this.cboArea.Location = new System.Drawing.Point(220, 77);
-            this.cboArea.MaxDropDownItems = 20;
-            this.cboArea.Name = "cboArea";
-            this.cboArea.Size = new System.Drawing.Size(221, 21);
-            this.cboArea.TabIndex = 222;
-            this.cboArea.SelectedIndexChanged += new System.EventHandler(this.cboArea_SelectedIndexChanged);
-            // 
-            // lblCountry
-            // 
-            this.lblCountry.AutoSize = true;
-            this.lblCountry.Location = new System.Drawing.Point(100, 40);
-            this.lblCountry.Name = "lblCountry";
-            this.lblCountry.Size = new System.Drawing.Size(0, 13);
-            this.lblCountry.TabIndex = 129;
-            // 
-            // cboCountry
-            // 
-            this.cboCountry.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-            this.cboCountry.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.cboCountry.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboCountry.FormattingEnabled = true;
-            this.cboCountry.Location = new System.Drawing.Point(220, 37);
-            this.cboCountry.MaxDropDownItems = 20;
-            this.cboCountry.Name = "cboCountry";
-            this.cboCountry.Size = new System.Drawing.Size(221, 21);
-            this.cboCountry.TabIndex = 221;
-            this.cboCountry.SelectedIndexChanged += new System.EventHandler(this.cboCountry_SelectedIndexChanged);
-            // 
-            // cboDVBTScanningFrequency
-            // 
-            this.cboDVBTScanningFrequency.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-            this.cboDVBTScanningFrequency.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.cboDVBTScanningFrequency.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboDVBTScanningFrequency.FormattingEnabled = true;
-            this.cboDVBTScanningFrequency.Location = new System.Drawing.Point(220, 117);
-            this.cboDVBTScanningFrequency.MaxDropDownItems = 20;
-            this.cboDVBTScanningFrequency.Name = "cboDVBTScanningFrequency";
-            this.cboDVBTScanningFrequency.Size = new System.Drawing.Size(150, 21);
-            this.cboDVBTScanningFrequency.TabIndex = 223;
-            // 
-            // label24
-            // 
-            this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(100, 120);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(0, 13);
-            this.label24.TabIndex = 133;
-            // 
-            // tbpCable
-            // 
-            this.tbpCable.Controls.Add(this.label54);
-            this.tbpCable.Controls.Add(this.cboCable);
-            this.tbpCable.Controls.Add(this.label52);
-            this.tbpCable.Controls.Add(this.cboCableScanningFrequency);
-            this.tbpCable.Location = new System.Drawing.Point(4, 22);
-            this.tbpCable.Name = "tbpCable";
-            this.tbpCable.Size = new System.Drawing.Size(404, 308);
-            this.tbpCable.TabIndex = 2;
-            this.tbpCable.Text = "DVB Cable";
-            this.tbpCable.UseVisualStyleBackColor = true;
-            // 
-            // label54
-            // 
-            this.label54.AutoSize = true;
-            this.label54.Location = new System.Drawing.Point(100, 60);
-            this.label54.Name = "label54";
-            this.label54.Size = new System.Drawing.Size(0, 13);
-            this.label54.TabIndex = 137;
-            // 
-            // cboCable
-            // 
-            this.cboCable.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-            this.cboCable.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.cboCable.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboCable.FormattingEnabled = true;
-            this.cboCable.Location = new System.Drawing.Point(220, 57);
-            this.cboCable.MaxDropDownItems = 20;
-            this.cboCable.Name = "cboCable";
-            this.cboCable.Size = new System.Drawing.Size(221, 21);
-            this.cboCable.TabIndex = 230;
-            this.cboCable.SelectedIndexChanged += new System.EventHandler(this.cboCable_SelectedIndexChanged);
-            // 
-            // label52
-            // 
-            this.label52.AutoSize = true;
-            this.label52.Location = new System.Drawing.Point(100, 100);
-            this.label52.Name = "label52";
-            this.label52.Size = new System.Drawing.Size(0, 13);
-            this.label52.TabIndex = 139;
-            // 
-            // cboCableScanningFrequency
-            // 
-            this.cboCableScanningFrequency.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-            this.cboCableScanningFrequency.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.cboCableScanningFrequency.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboCableScanningFrequency.FormattingEnabled = true;
-            this.cboCableScanningFrequency.Location = new System.Drawing.Point(220, 97);
-            this.cboCableScanningFrequency.MaxDropDownItems = 20;
-            this.cboCableScanningFrequency.Name = "cboCableScanningFrequency";
-            this.cboCableScanningFrequency.Size = new System.Drawing.Size(150, 21);
-            this.cboCableScanningFrequency.TabIndex = 231;
             // 
             // tbpAtsc
             // 
@@ -785,15 +663,137 @@
             this.cboISDBTScanningFrequency.Size = new System.Drawing.Size(150, 21);
             this.cboISDBTScanningFrequency.TabIndex = 253;
             // 
-            // lblTuner
+            // cboCableScanningFrequency
             // 
-            this.lblTuner.AutoSize = true;
-            this.lblTuner.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblTuner.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.lblTuner.Location = new System.Drawing.Point(3, 16);
-            this.lblTuner.Name = "lblTuner";
-            this.lblTuner.Size = new System.Drawing.Size(0, 20);
-            this.lblTuner.TabIndex = 0;
+            this.cboCableScanningFrequency.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.cboCableScanningFrequency.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cboCableScanningFrequency.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboCableScanningFrequency.FormattingEnabled = true;
+            this.cboCableScanningFrequency.Location = new System.Drawing.Point(220, 97);
+            this.cboCableScanningFrequency.MaxDropDownItems = 20;
+            this.cboCableScanningFrequency.Name = "cboCableScanningFrequency";
+            this.cboCableScanningFrequency.Size = new System.Drawing.Size(150, 21);
+            this.cboCableScanningFrequency.TabIndex = 231;
+            // 
+            // label52
+            // 
+            this.label52.AutoSize = true;
+            this.label52.Location = new System.Drawing.Point(100, 100);
+            this.label52.Name = "label52";
+            this.label52.Size = new System.Drawing.Size(0, 13);
+            this.label52.TabIndex = 139;
+            // 
+            // cboCable
+            // 
+            this.cboCable.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.cboCable.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cboCable.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboCable.FormattingEnabled = true;
+            this.cboCable.Location = new System.Drawing.Point(220, 57);
+            this.cboCable.MaxDropDownItems = 20;
+            this.cboCable.Name = "cboCable";
+            this.cboCable.Size = new System.Drawing.Size(221, 21);
+            this.cboCable.TabIndex = 230;
+            this.cboCable.SelectedIndexChanged += new System.EventHandler(this.cboCable_SelectedIndexChanged);
+            // 
+            // label54
+            // 
+            this.label54.AutoSize = true;
+            this.label54.Location = new System.Drawing.Point(100, 60);
+            this.label54.Name = "label54";
+            this.label54.Size = new System.Drawing.Size(0, 13);
+            this.label54.TabIndex = 137;
+            // 
+            // tbpCable
+            // 
+            this.tbpCable.Controls.Add(this.label54);
+            this.tbpCable.Controls.Add(this.cboCable);
+            this.tbpCable.Controls.Add(this.label52);
+            this.tbpCable.Controls.Add(this.cboCableScanningFrequency);
+            this.tbpCable.Location = new System.Drawing.Point(4, 22);
+            this.tbpCable.Name = "tbpCable";
+            this.tbpCable.Size = new System.Drawing.Size(404, 308);
+            this.tbpCable.TabIndex = 2;
+            this.tbpCable.Text = "DVB Cable";
+            this.tbpCable.UseVisualStyleBackColor = true;
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Location = new System.Drawing.Point(100, 120);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(0, 13);
+            this.label24.TabIndex = 133;
+            // 
+            // cboDVBTScanningFrequency
+            // 
+            this.cboDVBTScanningFrequency.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.cboDVBTScanningFrequency.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cboDVBTScanningFrequency.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboDVBTScanningFrequency.FormattingEnabled = true;
+            this.cboDVBTScanningFrequency.Location = new System.Drawing.Point(220, 117);
+            this.cboDVBTScanningFrequency.MaxDropDownItems = 20;
+            this.cboDVBTScanningFrequency.Name = "cboDVBTScanningFrequency";
+            this.cboDVBTScanningFrequency.Size = new System.Drawing.Size(150, 21);
+            this.cboDVBTScanningFrequency.TabIndex = 223;
+            // 
+            // cboCountry
+            // 
+            this.cboCountry.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.cboCountry.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cboCountry.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboCountry.FormattingEnabled = true;
+            this.cboCountry.Location = new System.Drawing.Point(220, 37);
+            this.cboCountry.MaxDropDownItems = 20;
+            this.cboCountry.Name = "cboCountry";
+            this.cboCountry.Size = new System.Drawing.Size(221, 21);
+            this.cboCountry.TabIndex = 221;
+            this.cboCountry.SelectedIndexChanged += new System.EventHandler(this.cboCountry_SelectedIndexChanged);
+            // 
+            // lblCountry
+            // 
+            this.lblCountry.AutoSize = true;
+            this.lblCountry.Location = new System.Drawing.Point(100, 40);
+            this.lblCountry.Name = "lblCountry";
+            this.lblCountry.Size = new System.Drawing.Size(0, 13);
+            this.lblCountry.TabIndex = 129;
+            // 
+            // cboArea
+            // 
+            this.cboArea.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.cboArea.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cboArea.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboArea.FormattingEnabled = true;
+            this.cboArea.Location = new System.Drawing.Point(220, 77);
+            this.cboArea.MaxDropDownItems = 20;
+            this.cboArea.Name = "cboArea";
+            this.cboArea.Size = new System.Drawing.Size(221, 21);
+            this.cboArea.TabIndex = 222;
+            this.cboArea.SelectedIndexChanged += new System.EventHandler(this.cboArea_SelectedIndexChanged);
+            // 
+            // lblArea
+            // 
+            this.lblArea.AutoSize = true;
+            this.lblArea.Location = new System.Drawing.Point(100, 80);
+            this.lblArea.Name = "lblArea";
+            this.lblArea.Size = new System.Drawing.Size(0, 13);
+            this.lblArea.TabIndex = 131;
+            // 
+            // tbpTerrestrial
+            // 
+            this.tbpTerrestrial.Controls.Add(this.lblArea);
+            this.tbpTerrestrial.Controls.Add(this.cboArea);
+            this.tbpTerrestrial.Controls.Add(this.lblCountry);
+            this.tbpTerrestrial.Controls.Add(this.cboCountry);
+            this.tbpTerrestrial.Controls.Add(this.cboDVBTScanningFrequency);
+            this.tbpTerrestrial.Controls.Add(this.label24);
+            this.tbpTerrestrial.Location = new System.Drawing.Point(4, 22);
+            this.tbpTerrestrial.Name = "tbpTerrestrial";
+            this.tbpTerrestrial.Padding = new System.Windows.Forms.Padding(3);
+            this.tbpTerrestrial.Size = new System.Drawing.Size(404, 308);
+            this.tbpTerrestrial.TabIndex = 1;
+            this.tbpTerrestrial.Text = "DVB Terrestrial";
+            this.tbpTerrestrial.UseVisualStyleBackColor = true;
             // 
             // FrequencySelectionControl
             // 
@@ -804,17 +804,12 @@
             this.Name = "FrequencySelectionControl";
             this.Size = new System.Drawing.Size(455, 478);
             this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.tbcDeliverySystem.ResumeLayout(false);
             this.tbpSatellite.ResumeLayout(false);
             this.tbpSatellite.PerformLayout();
-            this.tbpTerrestrial.ResumeLayout(false);
-            this.tbpTerrestrial.PerformLayout();
-            this.tbpCable.ResumeLayout(false);
-            this.tbpCable.PerformLayout();
             this.tbpAtsc.ResumeLayout(false);
             this.tbpAtsc.PerformLayout();
             this.tbpClearQAM.ResumeLayout(false);
@@ -823,6 +818,10 @@
             this.tbpISDBSatellite.PerformLayout();
             this.tbpISDBTerrestrial.ResumeLayout(false);
             this.tbpISDBTerrestrial.PerformLayout();
+            this.tbpCable.ResumeLayout(false);
+            this.tbpCable.PerformLayout();
+            this.tbpTerrestrial.ResumeLayout(false);
+            this.tbpTerrestrial.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -830,6 +829,7 @@
         #endregion
 
         private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.CheckedListBox clbTuners;
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.CheckBox cbRepeatDiseqc;
         private System.Windows.Forms.CheckBox cbUseSignalPresent;
@@ -891,6 +891,5 @@
         private System.Windows.Forms.ComboBox cboCable;
         private System.Windows.Forms.Label label52;
         private System.Windows.Forms.ComboBox cboCableScanningFrequency;
-        private System.Windows.Forms.Label lblTuner;
     }
 }

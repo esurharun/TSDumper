@@ -23,12 +23,19 @@ using System;
 using System.Collections;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Drawing;
+using System.Data;
 using System.Globalization;
-using System.IO;
-using System.Threading;
+using System.Reflection;
+using System.Text;
 using System.Windows.Forms;
-using DirectShow;
+using System.Threading;
+using System.IO;
+using System.Runtime.InteropServices;
+
 using DomainObjects;
+using DirectShow;
+
 
 namespace TSDumper
 {
@@ -37,13 +44,44 @@ namespace TSDumper
     /// </summary>
     public partial class TransportStreamDumpControl : UserControl, IUpdateControl
     {
-        private  DumpParameters last_dump_parameters;
-        private readonly AutoResetEvent resetEvent = new AutoResetEvent(false);
-        private readonly ArrayList restart_times = new ArrayList();
-        private double finalSize;
+        /// <summary>
+        /// Get the general window heading for the data.
+        /// </summary>
+        public string Heading { get { return ("TSDumper - Developed by Steve Bickell, Harun Esur"); } }
+        /// <summary>
+        /// Get the default directory.
+        /// </summary>
+        public string DefaultDirectory { get { return (null); } }
+        /// <summary>
+        /// Get the default output file name.
+        /// </summary>
+        public string DefaultFileName { get { return (null); } }
+        /// <summary>
+        /// Get the save file filter.
+        /// </summary>
+        public string SaveFileFilter { get { return (null); } }
+        /// <summary>
+        /// Get the save file title.
+        /// </summary>
+        public string SaveFileTitle { get { return (null); } }
+        /// <summary>
+        /// Get the save file suffix.
+        /// </summary>
+        public string SaveFileSuffix { get { return (null); } }
+
+        /// <summary>
+        /// Return the state of the data set.
+        /// </summary>
+        public DataState DataState { get { return (new DataState()); } }
+
+        private delegate DialogResult ShowMessage(string message, MessageBoxButtons buttons, MessageBoxIcon icon);
+
         private Collection<int> pidList;
 
-        private BackgroundWorker workerDump;
+        private BackgroundWorker workerDump = null;
+        private AutoResetEvent resetEvent = new AutoResetEvent(false); 
+
+        private double finalSize;
 
         /// <summary>
         /// Initialize a new instance of the TransportStreamDumpControl class.
@@ -51,108 +89,22 @@ namespace TSDumper
         public TransportStreamDumpControl()
         {
             InitializeComponent();
+
+            
         }
-
-        internal Tuner tuner { get; set; }
-
-        #region IUpdateControl Members
-
-        /// <summary>
-        /// Get the general window heading for the data.
-        /// </summary>
-        public string Heading
-        {
-            get { return ("TSDumper - Developed by Steve Bickell, Harun Esur"); }
-        }
-
-        /// <summary>
-        /// Get the default directory.
-        /// </summary>
-        public string DefaultDirectory
-        {
-            get { return (null); }
-        }
-
-        /// <summary>
-        /// Get the default output file name.
-        /// </summary>
-        public string DefaultFileName
-        {
-            get { return (null); }
-        }
-
-        /// <summary>
-        /// Get the save file filter.
-        /// </summary>
-        public string SaveFileFilter
-        {
-            get { return (null); }
-        }
-
-        /// <summary>
-        /// Get the save file title.
-        /// </summary>
-        public string SaveFileTitle
-        {
-            get { return (null); }
-        }
-
-        /// <summary>
-        /// Get the save file suffix.
-        /// </summary>
-        public string SaveFileSuffix
-        {
-            get { return (null); }
-        }
-
-        /// <summary>
-        /// Return the state of the data set.
-        /// </summary>
-        public DataState DataState
-        {
-            get { return (new DataState()); }
-        }
-
-        /// Prepare to save update data.
-        /// </summary>
-        /// <returns>False. This function is not implemented.</returns>
-        public bool PrepareToSave()
-        {
-            return (false);
-        }
-
-        /// <summary>
-        /// Save updated data.
-        /// </summary>
-        /// <returns>False. This function is not implemented.</returns>
-        public bool Save()
-        {
-            return (false);
-        }
-
-        /// <summary>
-        /// Save updated data to a file.
-        /// </summary>
-        /// <param name="fileName">The name of the file.</param>
-        /// <returns>False. This function is not implemented.</returns>
-        public bool Save(string fileName)
-        {
-            return (false);
-        }
-
-        #endregion
 
         /// <summary>
         /// Process the dump.
         /// </summary>
-        public void Process(Tuner _tuner)
+        public void Process()
         {
-            tuner = _tuner;
-
-            frequencySelectionControl.Process(tuner);
+            frequencySelectionControl.Process();
 
             nudSignalLockTimeout.Value = 10;
             nudDataCollectionTimeout.Value = 60;
+
+            
+            
         }
 
         private void btTimeoutDefaults_Click(object sender, EventArgs e)
@@ -164,14 +116,30 @@ namespace TSDumper
 
         private void btnBrowse_Click(object sender, EventArgs e)
         {
-            var browseFile = new FolderBrowserDialog();
+            FolderBrowserDialog browseFile = new FolderBrowserDialog();
             browseFile.Description = "TSDumper - Find Output File Directory";
             DialogResult result = browseFile.ShowDialog();
             if (result == DialogResult.Cancel)
                 return;
 
             txtOutputFile.Text = browseFile.SelectedPath;
+
+            /*if (!browseFile.SelectedPath.EndsWith(Path.DirectorySeparatorChar.ToString()))
+                txtOutputFile.Text = Path.Combine(browseFile.SelectedPath,
+                    frequencySelectionControl.SelectedFrequency.ToString() + " " +
+                    DateTime.Now.ToString("ddMMyy") + " " +
+                    DateTime.Now.ToString("HHmmss")) +
+                    ".ts";
+            else
+                txtOutputFile.Text = browseFile.SelectedPath + frequencySelectionControl.SelectedFrequency.ToString() + " " +
+                    DateTime.Now.ToString("ddMMyy") + " " +
+                    DateTime.Now.ToString("HHmmss") +
+                    ".ts";*/
         }
+
+        private ArrayList restart_times = new ArrayList();
+
+        private static DumpParameters last_dump_parameters = null;
 
         private void start_dump()
         {
@@ -181,92 +149,98 @@ namespace TSDumper
             lblScanning.Visible = true;
             pbarProgress.Visible = true;
             pbarProgress.Enabled = true;
-
-
+          
+           
+            
             workerDump = new BackgroundWorker();
             workerDump.WorkerReportsProgress = true;
             workerDump.WorkerSupportsCancellation = true;
-            workerDump.DoWork += doDump;
+            workerDump.DoWork += new DoWorkEventHandler(doDump);
 
 
-            workerDump.RunWorkerCompleted += runWorkerCompleted;
-            workerDump.ProgressChanged += progressChanged;
+            workerDump.RunWorkerCompleted += new RunWorkerCompletedEventHandler(runWorkerCompleted);
+            workerDump.ProgressChanged += new ProgressChangedEventHandler(progressChanged);
 
             last_dump_parameters = getDumpParameters();
             workerDump.RunWorkerAsync(last_dump_parameters);
         }
-
         private void ChangeControlStatus(bool status)
         {
-            ChangeControlStatus(status, this);
+            ChangeControlStatus(status,this);
         }
 
-        private void ChangeControlStatus(bool status, Control c)
-
+         private void ChangeControlStatus(bool status, Control c)
+        
         {
+
+
             foreach (Control ctrl in c.Controls)
             {
+
                 if (ctrl is TextBox)
 
-                    (ctrl).Enabled = status;
+                    ((TextBox)ctrl).Enabled = status;
 
                 else if (ctrl is Button)
                 {
                     if (ctrl != cmdScan)
-                        (ctrl).Enabled = status;
+                        ((Button)ctrl).Enabled = status;
                 }
                 else if (ctrl is RadioButton)
 
-                    (ctrl).Enabled = status;
+                    ((RadioButton)ctrl).Enabled = status;
                 else if (ctrl is ComboBox)
 
-                    (ctrl).Enabled = status;
+                    ((ComboBox)ctrl).Enabled = status;
 
                 else if (ctrl is NumericUpDown)
 
-                    (ctrl).Enabled = status;
+                    ((NumericUpDown)ctrl).Enabled = status;
                 else if (ctrl is MaskedTextBox)
 
-                    (ctrl).Enabled = status;
+                    ((MaskedTextBox)ctrl).Enabled = status;
 
                 else if (ctrl is CheckBox)
 
-                    (ctrl).Enabled = status;
+                    ((CheckBox) ctrl).Enabled = status;
 
-                ChangeControlStatus(status, ctrl);
+                ChangeControlStatus(status,ctrl);
             }
+
+
+
         }
 
         private void cmdScan_Click(object sender, EventArgs e)
         {
             if (cmdScan.Text == "Stop Dump")
             {
-                Logger.Instance.Write((int) tuner.Tag, "Stop dump requested");
+                Logger.Instance.Write("Stop dump requested");
                 workerDump.CancelAsync();
-                resetEvent.WaitOne(new TimeSpan(0, 0, 45));
+               resetEvent.WaitOne(new TimeSpan(0, 0, 45));
                 cmdScan.Text = "Start Dump";
                 lblScanning.Visible = false;
                 pbarProgress.Visible = false;
                 pbarProgress.Enabled = false;
-
+          
 
                 if (last_dump_parameters != null)
                 {
-                    string val = ScriptRunner.run_after_finish(last_dump_parameters.FileName, (int) tuner.Tag,
-                                                               after_recording_complete_script_path.Text);
+                    string val = ScriptRunner.run_after_finish(last_dump_parameters.FileName, get_active_tuner_idx(), after_recording_complete_script_path.Text);
                 }
-
+                   
 
                 ChangeControlStatus(true);
 
-
+                
                 return;
             }
 
             if (!checkData())
                 return;
+            
 
-
+           
             DateTime st_time = DateTime.ParseExact(start_hour_textbox.Text, "HH:mm", CultureInfo.InvariantCulture);
             int hour = st_time.Hour;
             int minute = st_time.Minute;
@@ -280,7 +254,7 @@ namespace TSDumper
 
             restart_times.Clear();
 
-            while (!(current_hour == hour && current_minute == minute && current_second == second))
+            while (!(current_hour == hour && current_minute == minute && current_second == second ))
             {
                 st_time = st_time.AddSeconds(dp.DataCollectionTimeout);
                 current_hour = st_time.Hour;
@@ -288,13 +262,14 @@ namespace TSDumper
                 current_second = st_time.Second;
 
                 restart_times.Add(st_time.ToString("HHmmss"));
-                // Logger.Instance.Write(string.Format("restart time: {0}",calc_time.ToString()));
+               // Logger.Instance.Write(string.Format("restart time: {0}",calc_time.ToString()));
+                
             }
 
-            Logger.Instance.Write((int) tuner.Tag, "Dump started");
+            Logger.Instance.Write("Dump started");
 
             cmdScan.Text = "Stop Dump";
-
+            
             start_dump();
         }
 
@@ -305,12 +280,12 @@ namespace TSDumper
             {
                 MessageBox.Show(reply, "TSDumper", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return (false);
-            }
+            }           
 
             if (txtOutputFile.Text == null || txtOutputFile.Text == string.Empty)
             {
                 MessageBox.Show("No output path entered.", "TSDumper", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return (false);
+                return(false);
             }
 
             string pidReply = processPids();
@@ -320,6 +295,9 @@ namespace TSDumper
                 return (false);
             }
 
+           
+
+           
 
             return (true);
         }
@@ -332,7 +310,7 @@ namespace TSDumper
                 return (null);
             }
 
-            string[] parts = tbPidList.Text.Split(new[] {','});
+            string[] parts = tbPidList.Text.Split(new char[] { ',' });
 
             pidList = new Collection<int>();
 
@@ -363,6 +341,15 @@ namespace TSDumper
             return (null);
         }
 
+        private int get_active_tuner_idx()
+        {
+            Collection<int> selected_tuner_indexes = frequencySelectionControl.selected_tuner_indexes;
+        
+            if (selected_tuner_indexes.Count > 0)
+                return selected_tuner_indexes[0];
+
+            return 0;
+        }
 
         private void progressChanged(object sender, ProgressChangedEventArgs e)
         {
@@ -371,22 +358,25 @@ namespace TSDumper
 
         private void doDump(object sender, DoWorkEventArgs e)
         {
+
+            
+
             finalSize = -1;
 
-            var dumpParameters = e.Argument as DumpParameters;
-
+            DumpParameters dumpParameters = e.Argument as DumpParameters;
+            
             TunerNodeType tunerNodeType;
             TuningSpec tuningSpec;
 
-            var satelliteFrequency = dumpParameters.ScanningFrequency as SatelliteFrequency;
+            SatelliteFrequency satelliteFrequency = dumpParameters.ScanningFrequency as SatelliteFrequency;
             if (satelliteFrequency != null)
             {
                 tunerNodeType = TunerNodeType.Satellite;
-                tuningSpec = new TuningSpec((Satellite) satelliteFrequency.Provider, satelliteFrequency);
+                tuningSpec = new TuningSpec((Satellite)satelliteFrequency.Provider, satelliteFrequency);
             }
             else
             {
-                var terrestrialFrequency = dumpParameters.ScanningFrequency as TerrestrialFrequency;
+                TerrestrialFrequency terrestrialFrequency = dumpParameters.ScanningFrequency as TerrestrialFrequency;
                 if (terrestrialFrequency != null)
                 {
                     tunerNodeType = TunerNodeType.Terrestrial;
@@ -394,7 +384,7 @@ namespace TSDumper
                 }
                 else
                 {
-                    var cableFrequency = dumpParameters.ScanningFrequency as CableFrequency;
+                    CableFrequency cableFrequency = dumpParameters.ScanningFrequency as CableFrequency;
                     if (cableFrequency != null)
                     {
                         tunerNodeType = TunerNodeType.Cable;
@@ -402,7 +392,7 @@ namespace TSDumper
                     }
                     else
                     {
-                        var atscFrequency = dumpParameters.ScanningFrequency as AtscFrequency;
+                        AtscFrequency atscFrequency = dumpParameters.ScanningFrequency as AtscFrequency;
                         if (atscFrequency != null)
                         {
                             if (atscFrequency.TunerType == TunerType.ATSC)
@@ -413,7 +403,7 @@ namespace TSDumper
                         }
                         else
                         {
-                            var clearQamFrequency = dumpParameters.ScanningFrequency as ClearQamFrequency;
+                            ClearQamFrequency clearQamFrequency = dumpParameters.ScanningFrequency as ClearQamFrequency;
                             if (clearQamFrequency != null)
                             {
                                 tunerNodeType = TunerNodeType.Cable;
@@ -421,17 +411,15 @@ namespace TSDumper
                             }
                             else
                             {
-                                var isdbSatelliteFrequency = dumpParameters.ScanningFrequency as ISDBSatelliteFrequency;
+                                ISDBSatelliteFrequency isdbSatelliteFrequency = dumpParameters.ScanningFrequency as ISDBSatelliteFrequency;
                                 if (isdbSatelliteFrequency != null)
                                 {
                                     tunerNodeType = TunerNodeType.ISDBS;
-                                    tuningSpec = new TuningSpec((Satellite) satelliteFrequency.Provider,
-                                                                isdbSatelliteFrequency);
+                                    tuningSpec = new TuningSpec((Satellite)satelliteFrequency.Provider, isdbSatelliteFrequency);
                                 }
                                 else
                                 {
-                                    var isdbTerrestrialFrequency =
-                                        dumpParameters.ScanningFrequency as ISDBTerrestrialFrequency;
+                                    ISDBTerrestrialFrequency isdbTerrestrialFrequency = dumpParameters.ScanningFrequency as ISDBTerrestrialFrequency;
                                     if (isdbTerrestrialFrequency != null)
                                     {
                                         tunerNodeType = TunerNodeType.ISDBT;
@@ -453,25 +441,20 @@ namespace TSDumper
             {
                 if ((sender as BackgroundWorker).CancellationPending)
                 {
-                    Logger.Instance.Write((int) tuner.Tag, "Scan abandoned by user");
+                    Logger.Instance.Write("Scan abandoned by user");
                     e.Cancel = true;
                     resetEvent.Set();
                     return;
                 }
-
-//                BDAGraph graph = BDAGraph.FindTuner(dumpParameters.Tuners, 
-//                    tunerNodeType, tuningSpec, currentTuner, dumpParameters.RepeatDiseqc, dumpParameters.SwitchAfterPlay, dumpParameters.FileName);
-                BDAGraph graph = BDAGraph.checkTunerAvailability(tuner, tuningSpec, dumpParameters.RepeatDiseqc,
-                                                                 dumpParameters.SwitchAfterPlay, dumpParameters.FileName);
+                    
+                BDAGraph graph = BDAGraph.FindTuner(dumpParameters.Tuners, 
+                    tunerNodeType, tuningSpec, currentTuner, dumpParameters.RepeatDiseqc, dumpParameters.SwitchAfterPlay, dumpParameters.FileName);
                 if (graph == null)
                 {
-                    Logger.Instance.Write((int) tuner.Tag,
-                                          "<e> Tuner is not able to tune frequency " + dumpParameters.ScanningFrequency);
+                    Logger.Instance.Write("<e> No tuner able to tune frequency " + dumpParameters.ScanningFrequency.ToString());
 
-                    frequencySelectionControl.Invoke(new ShowMessage(showMessage),
-                                                     "No tuner able to tune frequency " +
-                                                     dumpParameters.ScanningFrequency,
-                                                     MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    frequencySelectionControl.Invoke(new ShowMessage(showMessage), "No tuner able to tune frequency " + dumpParameters.ScanningFrequency.ToString(),
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
                     finished = true;
                 }
                 else
@@ -480,7 +463,7 @@ namespace TSDumper
 
                     if ((sender as BackgroundWorker).CancellationPending)
                     {
-                        Logger.Instance.Write((int) tuner.Tag, "Scan abandoned by user");
+                        Logger.Instance.Write("Scan abandoned by user");
                         graph.Dispose();
                         e.Cancel = true;
                         resetEvent.Set();
@@ -492,27 +475,28 @@ namespace TSDumper
                         try
                         {
                             getData(graph, dumpParameters, sender as BackgroundWorker);
+                            
                         }
                         catch (IOException ex)
                         {
-                            Logger.Instance.Write((int) tuner.Tag, "<e> Failed to create dump file");
-                            Logger.Instance.Write((int) tuner.Tag, "<e> " + ex.Message);
-                            frequencySelectionControl.Invoke(new ShowMessage(showMessage),
-                                                             "Failed to create dump file." +
-                                                             Environment.NewLine + Environment.NewLine + ex.Message,
-                                                             MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            Logger.Instance.Write("<e> Failed to create dump file");
+                            Logger.Instance.Write("<e> " + ex.Message);
+                            frequencySelectionControl.Invoke(new ShowMessage(showMessage), "Failed to create dump file." + 
+                                Environment.NewLine + Environment.NewLine + ex.Message,
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
-
-
+                        
+                        
                         graph.Dispose();
-
+                        
+                        
+                        
 
                         finished = true;
                     }
                     else
                     {
-                        Logger.Instance.Write((int) tuner.Tag,
-                                              "Failed to tune frequency " + dumpParameters.ScanningFrequency);
+                        Logger.Instance.Write("Failed to tune frequency " + dumpParameters.ScanningFrequency.ToString());
                         graph.Dispose();
                         currentTuner = graph.Tuner;
                     }
@@ -541,7 +525,7 @@ namespace TSDumper
 
         private string checkTuning(BDAGraph graph, DumpParameters dumpParameters, BackgroundWorker worker)
         {
-            var timeout = new TimeSpan();
+            TimeSpan timeout = new TimeSpan();
             bool done = false;
             bool locked = false;
             int frequencyRetries = 0;
@@ -550,7 +534,7 @@ namespace TSDumper
             {
                 if (worker.CancellationPending)
                 {
-                    Logger.Instance.Write((int) tuner.Tag, "Dump abandoned by user");
+                    Logger.Instance.Write("Dump abandoned by user");
                     return (null);
                 }
 
@@ -560,7 +544,7 @@ namespace TSDumper
                     int signalQuality = graph.SignalQuality;
                     if (signalQuality > 0)
                     {
-                        Logger.Instance.Write((int) tuner.Tag, "Signal not locked but signal quality > 0");
+                        Logger.Instance.Write("Signal not locked but signal quality > 0");
                         locked = true;
                         done = true;
                     }
@@ -568,7 +552,7 @@ namespace TSDumper
                     {
                         if (!dumpParameters.UseSignalPresent)
                         {
-                            Logger.Instance.Write((int) tuner.Tag, "Signal not locked and signal quality not > 0");
+                            Logger.Instance.Write("Signal not locked and signal quality not > 0");
                             Thread.Sleep(1000);
                             timeout = timeout.Add(new TimeSpan(0, 0, 1));
                             done = (timeout.TotalSeconds == dumpParameters.SignalLockTimeout);
@@ -578,13 +562,13 @@ namespace TSDumper
                             bool signalPresent = graph.SignalPresent;
                             if (signalPresent)
                             {
-                                Logger.Instance.Write((int) tuner.Tag, "Signal present");
+                                Logger.Instance.Write("Signal present");
                                 locked = true;
                                 done = true;
                             }
                             else
                             {
-                                Logger.Instance.Write((int) tuner.Tag, "Signal not present");
+                                Logger.Instance.Write("Signal not present");
                                 Thread.Sleep(1000);
                                 timeout = timeout.Add(new TimeSpan(0, 0, 1));
                                 done = (timeout.TotalSeconds == dumpParameters.SignalLockTimeout);
@@ -595,10 +579,10 @@ namespace TSDumper
                         {
                             done = (frequencyRetries == 2);
                             if (done)
-                                Logger.Instance.Write((int) tuner.Tag, "<e> Failed to acquire signal");
+                                Logger.Instance.Write("<e> Failed to acquire signal");
                             else
                             {
-                                Logger.Instance.Write((int) tuner.Tag, "Retrying frequency");
+                                Logger.Instance.Write("Retrying frequency");
                                 timeout = new TimeSpan();
                                 frequencyRetries++;
                             }
@@ -607,9 +591,7 @@ namespace TSDumper
                 }
                 else
                 {
-                    Logger.Instance.Write((int) tuner.Tag,
-                                          "Signal acquired: lock is " + graph.SignalLocked + " quality is " +
-                                          graph.SignalQuality + " strength is " + graph.SignalStrength);
+                    Logger.Instance.Write("Signal acquired: lock is " + graph.SignalLocked + " quality is " + graph.SignalQuality + " strength is " + graph.SignalStrength);
                     done = true;
                 }
             }
@@ -617,12 +599,12 @@ namespace TSDumper
             if (locked)
                 return (null);
             else
-                return ("<e> The tuner failed to acquire a signal for frequency " + dumpParameters.ScanningFrequency);
+                return ("<e> The tuner failed to acquire a signal for frequency " + dumpParameters.ScanningFrequency.ToString());
         }
 
         private void getData(BDAGraph graph, DumpParameters dumpParameters, BackgroundWorker worker)
         {
-            Logger.Instance.Write(string.Format("Starting dump to {0}", dumpParameters.FileName));
+            Logger.Instance.Write(string.Format("Starting dump to {0}",dumpParameters.FileName));
 
             int[] newPids;
 
@@ -630,7 +612,7 @@ namespace TSDumper
             {
                 newPids = new int[dumpParameters.PidList.Count];
                 for (int index = 0; index < dumpParameters.PidList.Count; index++)
-                    newPids[index] = dumpParameters.PidList[index];
+                    newPids[index] = dumpParameters.PidList[index];                
             }
             else
             {
@@ -647,7 +629,7 @@ namespace TSDumper
             while (!worker.CancellationPending)
             {
                 Thread.Sleep(100);
-
+                
                 int increment = 5;
                 if (dumpParameters.PidList != null && dumpParameters.PidList.Count != 0)
                     increment = 1;
@@ -656,53 +638,59 @@ namespace TSDumper
                 if (buffer_space > 40)
                 {
                     graph.clear_buffer();
+                    
                 }
+             
 
-
-                int size = graph.DumpFileSize/(1024*1024);
+                int size = graph.DumpFileSize / (1024 * 1024);
                 if (size >= lastSize + increment)
                 {
-                    Logger.Instance.Write((int) tuner.Tag, "Record/Buffer sizes: (" + size + "/" + buffer_space + ")");
-                    worker.ReportProgress(size);
+                    Logger.Instance.Write("Record/Buffer sizes: (" + size + "/"+buffer_space+")");
+                    worker.ReportProgress((int)size);
 
-
-                    lastSize = size;
-                }
+                    
+                    lastSize = size;                    
+                }                
             }
 
             finalSize = graph.DumpFileSize;
-            Logger.Instance.Write((int) tuner.Tag, "Dump completed - file size now " + finalSize + " bytes");
+            Logger.Instance.Write("Dump completed - file size now " + finalSize + " bytes");
         }
 
         private void runWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            Logger.Instance.Write((int) tuner.Tag, "Background worker completed");
+            
+            Logger.Instance.Write("Background worker completed");
 
             if (e.Error != null)
                 throw new InvalidOperationException("Background workfer failed - see inner exception", e.Error);
+
+            
+                    
         }
 
         private DumpParameters getDumpParameters()
         {
-            var dumpParameters = new DumpParameters();
+            DumpParameters dumpParameters = new DumpParameters();
 
+            dumpParameters.Tuners = frequencySelectionControl.Tuners;
             dumpParameters.ScanningFrequency = frequencySelectionControl.SelectedFrequency;
 
             if (dumpParameters.ScanningFrequency as SatelliteFrequency != null)
             {
-                var satelliteFrequency = (SatelliteFrequency) dumpParameters.ScanningFrequency;
+                SatelliteFrequency satelliteFrequency = (SatelliteFrequency)dumpParameters.ScanningFrequency;
                 satelliteFrequency.SatelliteDish = new SatelliteDish();
                 satelliteFrequency.SatelliteDish.LNBLowBandFrequency = frequencySelectionControl.LNBLowBandFrequency;
                 satelliteFrequency.SatelliteDish.LNBHighBandFrequency = frequencySelectionControl.LNBHighBandFrequency;
-                satelliteFrequency.SatelliteDish.LNBSwitchFrequency = frequencySelectionControl.LNBSwitchFrequency;
-                satelliteFrequency.SatelliteDish.DiseqcSwitch = frequencySelectionControl.DiseqcSwitch;
+                satelliteFrequency.SatelliteDish.LNBSwitchFrequency = frequencySelectionControl.LNBSwitchFrequency;               
+                satelliteFrequency.SatelliteDish.DiseqcSwitch = frequencySelectionControl.DiseqcSwitch;                
             }
 
             dumpParameters.UseSignalPresent = frequencySelectionControl.UseSignalPresent;
             dumpParameters.SwitchAfterPlay = frequencySelectionControl.SwitchAfterPlay;
             dumpParameters.RepeatDiseqc = frequencySelectionControl.RepeatDiseqc;
-            dumpParameters.SignalLockTimeout = (int) nudSignalLockTimeout.Value;
-            dumpParameters.DataCollectionTimeout = (int) nudDataCollectionTimeout.Value;
+            dumpParameters.SignalLockTimeout = (int)nudSignalLockTimeout.Value;
+            dumpParameters.DataCollectionTimeout = (int)nudDataCollectionTimeout.Value;
             dumpParameters.PidList = pidList;
             string newFilePath = string.Format("{0}\\tsdump-{1}.ts", Path.GetPathRoot(txtOutputFile.Text),
                                                DateTime.Now.Ticks/TimeSpan.TicksPerMillisecond);
@@ -710,15 +698,15 @@ namespace TSDumper
             {
                 if (before_recording_complete_script_path.Text != null)
                 {
-                    string val = ScriptRunner.run_before_start(newFilePath, (int) tuner.Tag,
-                                                               before_recording_complete_script_path.Text);
+
+
+                    string val = ScriptRunner.run_before_start(newFilePath, get_active_tuner_idx(), before_recording_complete_script_path.Text);
 
                     //MessageBox.Show(val);
                     if (val != null)
                         newFilePath = val;
                 }
-            }
-            catch (Exception e)
+            } catch(Exception e)
             {
                 MessageBox.Show(e.ToString());
             }
@@ -727,32 +715,132 @@ namespace TSDumper
 
             return (dumpParameters);
         }
-
+        
         // <summary>
+        /// Prepare to save update data.
+        /// </summary>
+        /// <returns>False. This function is not implemented.</returns>
+        public bool PrepareToSave()
+        {
+            return (false);
+        }
+
+        /// <summary>
+        /// Save updated data.
+        /// </summary>
+        /// <returns>False. This function is not implemented.</returns>
+        public bool Save() 
+        {
+            return (false);
+        }
+
+        /// <summary>
+        /// Save updated data to a file.
+        /// </summary>
+        /// <param name="fileName">The name of the file.</param>
+        /// <returns>False. This function is not implemented.</returns>
+        public bool Save(string fileName) 
+        {
+            return (false);
+        }
+
+        private class DumpParameters
+        {
+            internal Collection<int> Tuners
+            {
+                get { return (tuners); }
+                set { tuners = value; }
+            }
+
+            internal TuningFrequency ScanningFrequency
+            {
+                get { return (scanningFrequency); }
+                set { scanningFrequency = value; }
+            }
+
+            internal bool UseSignalPresent
+            {
+                get { return (useSignalPresent); }
+                set { useSignalPresent = value; }
+            }
+
+            internal bool SwitchAfterPlay
+            {
+                get { return (switchAfterPlay); }
+                set { switchAfterPlay = value; }
+            }
+
+            internal bool RepeatDiseqc
+            {
+                get { return (repeatDiseqc); }
+                set { repeatDiseqc = value; }
+            }
+
+            internal int SignalLockTimeout
+            {
+                get { return (signalLockTimeout); }
+                set { signalLockTimeout = value; }
+            }
+
+            internal int DataCollectionTimeout
+            {
+                get { return (dataCollectionTimeout); }
+                set { dataCollectionTimeout = value; }
+            }
+
+            internal Collection<int> PidList
+            {
+                get { return (pidList); }
+                set { pidList = value; }
+            }
+
+            internal string FileName
+            {
+                get { return (fileName); }
+                set { fileName = value; }
+            }
+
+            private Collection<int> tuners;
+            private TuningFrequency scanningFrequency;
+            private bool useSignalPresent;
+            private bool switchAfterPlay;
+            private bool repeatDiseqc;
+            private int signalLockTimeout;
+            private int dataCollectionTimeout;
+            private Collection<int> pidList;
+            private string fileName;
+
+            internal DumpParameters() { }
+        }
 
         private void TransportStreamDumpControl_Load(object sender, EventArgs e)
         {
+
         }
 
         private void gpOutputFile_Enter(object sender, EventArgs e)
         {
+
         }
 
         private void toolTip1_Popup(object sender, PopupEventArgs e)
         {
+
         }
 
         private void label5_Click(object sender, EventArgs e)
         {
+
         }
 
         private void label6_Click(object sender, EventArgs e)
         {
+
         }
 
         private string select_file(string filter)
         {
-            var browseFile = new OpenFileDialog();
+            OpenFileDialog browseFile = new OpenFileDialog();
             browseFile.Filter = filter;
             browseFile.CheckFileExists = false;
             browseFile.Title = "TSDumper - Find script file";
@@ -760,10 +848,10 @@ namespace TSDumper
             if (result == DialogResult.Cancel)
                 return null;
 
-            return browseFile.FileName;
+             return browseFile.FileName;
         }
 
-        private void select_file(TextBox resultBox, string filter)
+        private void select_file(TextBox resultBox,string filter)
         {
             string selected_file = select_file(filter);
 
@@ -773,7 +861,7 @@ namespace TSDumper
 
         private void button1_Click(object sender, EventArgs e)
         {
-            select_file(after_recording_complete_script_path, "CS Files (*.cs)|*.cs");
+           select_file(after_recording_complete_script_path, "CS Files (*.cs)|*.cs");
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -783,42 +871,53 @@ namespace TSDumper
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-//            try
-//            {
-                if (cmdScan.Text == "Stop Dump")
+
+            if (cmdScan.Text == "Stop Dump")
+            {
+
+                string current_time = DateTime.Now.ToString("HHmmss");
+
+
+
+                if (restart_times.IndexOf(current_time) != -1)
                 {
-                    string current_time = DateTime.Now.ToString("HHmmss");
+                    Logger.Instance.Write("Stop dump requested");
+                    workerDump.CancelAsync();
+                    resetEvent.WaitOne(new TimeSpan(0, 0, 45));
+                    
 
+                    Thread.Sleep(1000);
 
-                    if (restart_times.IndexOf(current_time) != -1)
+                    if (last_dump_parameters != null)
                     {
-                        Logger.Instance.Write((int) tuner.Tag, "Stop dump requested");
-                        workerDump.CancelAsync();
-                        resetEvent.WaitOne(new TimeSpan(0, 0, 45));
-
-
-                        Thread.Sleep(1000);
-
-                        if (last_dump_parameters != null)
-                        {
-                            string val = ScriptRunner.run_after_finish(last_dump_parameters.FileName, (int) tuner.Tag,
-                                                                       after_recording_complete_script_path.Text);
-                        }
-
-                        start_dump();
+                        string val = ScriptRunner.run_after_finish(last_dump_parameters.FileName, get_active_tuner_idx(), after_recording_complete_script_path.Text);
                     }
+                   
+                    start_dump();
                 }
 
-              
-           // }
-//            catch (Exception r_exception)
-//            {
-//            }
+                
+                
+            }
+           
+            
+
+            last_log.Items.AddRange((string[])Logger.last_log.ToArray(typeof(string)));
+
+       
+            last_log.SelectedIndex = last_log.Items.Count - 1;
+
+            Logger.last_log.Clear();
+
+            
+        
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
+
         }
+
 
 
         private string save_settings()
@@ -827,40 +926,44 @@ namespace TSDumper
 
             if (file != null)
             {
-                var inifile = new INIFile(file);
+                INIFile inifile = new INIFile(file);
 
+                Collection<int> selected_tuner_indexes = frequencySelectionControl.selected_tuner_indexes;
 
-                inifile.Write("default", "selected_satellite",
-                              string.Format("{0}", frequencySelectionControl.selected_satellite_index));
-                inifile.Write("default", "selected_frequency",
-                              string.Format("{0}", frequencySelectionControl.selected_frequency_index));
-                inifile.Write("default", "LNBLowBandFrequency",
-                              string.Format("{0}", frequencySelectionControl.LNBLowBandFrequency));
-                inifile.Write("default", "LNBHighBandFrequency",
-                              string.Format("{0}", frequencySelectionControl.LNBHighBandFrequency));
-                inifile.Write("default", "LNBSwitchFrequency",
-                              string.Format("{0}", frequencySelectionControl.LNBSwitchFrequency));
+                string str_selected_tuner_indexes = "";
+
+                for (int i = 0; i < selected_tuner_indexes.Count;i++ )
+                {
+                    str_selected_tuner_indexes += string.Format("{0}", selected_tuner_indexes[i]);
+
+                    if (i+1 != selected_tuner_indexes.Count)
+                    {
+                        str_selected_tuner_indexes += ",";
+                    }    
+                }
+
+                inifile.Write("default", "selected_tuners", str_selected_tuner_indexes);
+                inifile.Write("default", "selected_satellite", string.Format("{0}", frequencySelectionControl.selected_satellite_index));
+                inifile.Write("default", "selected_frequency", string.Format("{0}", frequencySelectionControl.selected_frequency_index));
+                inifile.Write("default", "LNBLowBandFrequency", string.Format("{0}", frequencySelectionControl.LNBLowBandFrequency));
+                inifile.Write("default", "LNBHighBandFrequency", string.Format("{0}", frequencySelectionControl.LNBHighBandFrequency));
+                inifile.Write("default", "LNBSwitchFrequency", string.Format("{0}", frequencySelectionControl.LNBSwitchFrequency));
                 inifile.Write("default", "DiseqC", frequencySelectionControl.DiseqcSwitch);
 
-                inifile.Write("default", "UseSignalPresent",
-                              frequencySelectionControl.UseSignalPresent ? bool.TrueString : bool.FalseString);
-                inifile.Write("default", "SwitchAfterPlay",
-                              frequencySelectionControl.SwitchAfterPlay ? bool.TrueString : bool.FalseString);
-                inifile.Write("default", "RepeatDiseqc",
-                              frequencySelectionControl.RepeatDiseqc ? bool.TrueString : bool.FalseString);
-                inifile.Write("default", "SignalLockTimeout", string.Format("{0}", (int) nudSignalLockTimeout.Value));
-                inifile.Write("default", "DataCollectionTimeout",
-                              string.Format("{0}", (int) nudDataCollectionTimeout.Value));
+                inifile.Write("default", "UseSignalPresent", frequencySelectionControl.UseSignalPresent ? bool.TrueString : bool.FalseString);
+                inifile.Write("default", "SwitchAfterPlay", frequencySelectionControl.SwitchAfterPlay ? bool.TrueString : bool.FalseString);
+                inifile.Write("default", "RepeatDiseqc", frequencySelectionControl.RepeatDiseqc ? bool.TrueString : bool.FalseString);
+                inifile.Write("default", "SignalLockTimeout", string.Format("{0}", (int)nudSignalLockTimeout.Value));
+                inifile.Write("default", "DataCollectionTimeout", string.Format("{0}", (int)nudDataCollectionTimeout.Value));
                 inifile.Write("default", "PidList", tbPidList.Text);
 
-                inifile.Write("default", "before_recording_complete_script_path",
-                              before_recording_complete_script_path.Text);
-                inifile.Write("default", "after_recording_complete_script_path",
-                              after_recording_complete_script_path.Text);
+                inifile.Write("default", "before_recording_complete_script_path", before_recording_complete_script_path.Text);
+                inifile.Write("default", "after_recording_complete_script_path", after_recording_complete_script_path.Text);
                 inifile.Write("default", "start_hour", start_hour_textbox.Text);
                 inifile.Write("default", "output_path", txtOutputFile.Text);
 
                 MessageBox.Show(string.Format("Settings successfully save to {0}", file));
+
             }
 
             return file;
@@ -868,44 +971,46 @@ namespace TSDumper
 
         private bool load_settings()
         {
-            string file = select_file("INI Files (*.ini)|*.ini");
+
+            string file = select_file( "INI Files (*.ini)|*.ini");
 
             if (file != null)
             {
                 try
                 {
-                    var inifile = new INIFile(file);
+                        INIFile inifile = new INIFile(file);
+
+                        string str_selected_tuner_indexes = inifile.Read("default", "selected_tuners");
+
+                        string[] parts = str_selected_tuner_indexes.Split(',');
+                        Collection<int> selected_tuner_indexes = new Collection<int>();
+                        foreach (string part in parts)
+                        {
+                                selected_tuner_indexes.Add(Int32.Parse(part, NumberStyles.Integer));    
+                        }
+
+                        frequencySelectionControl.selected_tuner_indexes = selected_tuner_indexes;
+                        frequencySelectionControl.selected_satellite_index = Int32.Parse(inifile.Read("default", "selected_satellite"), NumberStyles.Integer);
+                        frequencySelectionControl.selected_frequency_index = Int32.Parse(inifile.Read("default", "selected_frequency"), NumberStyles.Integer);
+                        frequencySelectionControl.LNBLowBandFrequency = Int32.Parse(inifile.Read("default", "LNBLowBandFrequency"), NumberStyles.Integer);
+                        frequencySelectionControl.LNBHighBandFrequency = Int32.Parse(inifile.Read("default", "LNBHighBandFrequency"), NumberStyles.Integer);
+                        frequencySelectionControl.LNBSwitchFrequency = Int32.Parse(inifile.Read("default", "LNBSwitchFrequency"), NumberStyles.Integer);
+                        frequencySelectionControl.DiseqcSwitch = inifile.Read("default", "DiseqC");
+                        frequencySelectionControl.UseSignalPresent = bool.Parse(inifile.Read("default", "UseSignalPresent"));
+                        frequencySelectionControl.SwitchAfterPlay = bool.Parse(inifile.Read("default", "SwitchAfterPlay"));
+                        frequencySelectionControl.RepeatDiseqc = bool.Parse(inifile.Read("default", "RepeatDiseqc"));
+                        nudSignalLockTimeout.Value = Int32.Parse(inifile.Read("default", "SignalLockTimeout"));
+                        nudDataCollectionTimeout.Value = Int32.Parse(inifile.Read("default", "DataCollectionTimeout"));
+                        tbPidList.Text = inifile.Read("default", "PidList");
+
+                        before_recording_complete_script_path.Text = inifile.Read("default", "before_recording_complete_script_path");
+                        after_recording_complete_script_path.Text = inifile.Read("default", "after_recording_complete_script_path");
+                        start_hour_textbox.Text = inifile.Read("default", "start_hour" );
+                        txtOutputFile.Text = inifile.Read("default", "output_path");
 
 
-                    frequencySelectionControl.selected_satellite_index =
-                        Int32.Parse(inifile.Read("default", "selected_satellite"), NumberStyles.Integer);
-                    frequencySelectionControl.selected_frequency_index =
-                        Int32.Parse(inifile.Read("default", "selected_frequency"), NumberStyles.Integer);
-                    frequencySelectionControl.LNBLowBandFrequency =
-                        Int32.Parse(inifile.Read("default", "LNBLowBandFrequency"), NumberStyles.Integer);
-                    frequencySelectionControl.LNBHighBandFrequency =
-                        Int32.Parse(inifile.Read("default", "LNBHighBandFrequency"), NumberStyles.Integer);
-                    frequencySelectionControl.LNBSwitchFrequency =
-                        Int32.Parse(inifile.Read("default", "LNBSwitchFrequency"), NumberStyles.Integer);
-                    frequencySelectionControl.DiseqcSwitch = inifile.Read("default", "DiseqC");
-                    frequencySelectionControl.UseSignalPresent = bool.Parse(inifile.Read("default", "UseSignalPresent"));
-                    frequencySelectionControl.SwitchAfterPlay = bool.Parse(inifile.Read("default", "SwitchAfterPlay"));
-                    frequencySelectionControl.RepeatDiseqc = bool.Parse(inifile.Read("default", "RepeatDiseqc"));
-                    nudSignalLockTimeout.Value = Int32.Parse(inifile.Read("default", "SignalLockTimeout"));
-                    nudDataCollectionTimeout.Value = Int32.Parse(inifile.Read("default", "DataCollectionTimeout"));
-                    tbPidList.Text = inifile.Read("default", "PidList");
-
-                    before_recording_complete_script_path.Text = inifile.Read("default",
-                                                                              "before_recording_complete_script_path");
-                    after_recording_complete_script_path.Text = inifile.Read("default",
-                                                                             "after_recording_complete_script_path");
-                    start_hour_textbox.Text = inifile.Read("default", "start_hour");
-                    txtOutputFile.Text = inifile.Read("default", "output_path");
-
-
-                    // MessageBox.Show("Settings loaded successfully");
-                }
-                catch (Exception e)
+                   // MessageBox.Show("Settings loaded successfully");
+                } catch(Exception e)
                 {
                     return false;
                 }
@@ -913,6 +1018,7 @@ namespace TSDumper
             }
 
             return false;
+
         }
 
 
@@ -926,35 +1032,10 @@ namespace TSDumper
             save_settings();
         }
 
-        #region Nested type: DumpParameters
 
-        private class DumpParameters
-        {
-            internal Collection<int> Tuners { get; set; }
-
-            internal TuningFrequency ScanningFrequency { get; set; }
-
-            internal bool UseSignalPresent { get; set; }
-
-            internal bool SwitchAfterPlay { get; set; }
-
-            internal bool RepeatDiseqc { get; set; }
-
-            internal int SignalLockTimeout { get; set; }
-
-            internal int DataCollectionTimeout { get; set; }
-
-            internal Collection<int> PidList { get; set; }
-
-            internal string FileName { get; set; }
-        }
-
-        #endregion
-
-        #region Nested type: ShowMessage
-
-        private delegate DialogResult ShowMessage(string message, MessageBoxButtons buttons, MessageBoxIcon icon);
-
-        #endregion
     }
+
+   
+
+
 }
