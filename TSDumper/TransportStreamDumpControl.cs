@@ -901,20 +901,23 @@ namespace TSDumper
             }
 
 
-
-            string[] to_add = (string[])Logger.last_log.ToArray(typeof(string));
-
-           
-
-            for (int i = 0; i < to_add.Length; i++)
+            try
             {
+                string[] to_add = (string[])Logger.last_log.ToArray(typeof(string));
 
-                string str_to_add = to_add[i];
-                if (str_to_add != null)
+
+
+                for (int i = 0; i < to_add.Length; i++)
                 {
-                    last_log.Items.Add(str_to_add);
+
+                    string str_to_add = to_add[i];
+                    if (str_to_add != null)
+                    {
+                        last_log.Items.Add(str_to_add);
+                    }
                 }
             }
+            catch (Exception er) { }
 
        
             last_log.SelectedIndex = last_log.Items.Count - 1;
