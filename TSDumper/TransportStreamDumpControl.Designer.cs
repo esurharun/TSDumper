@@ -219,7 +219,7 @@
             // 
             this.nudSignalLockTimeout.Location = new System.Drawing.Point(123, 22);
             this.nudSignalLockTimeout.Maximum = new decimal(new int[] {
-            30,
+            10000,
             0,
             0,
             0});

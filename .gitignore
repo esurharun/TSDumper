@@ -1,7 +1,11 @@
 # Build Folders (you can keep bin if you'd like, to store dlls and pdbs)
+Thumbs.db*
 bin
 obj
 Thumbs.db
 
+build
+UpgradeLog*
+_UpgradeReport_Files
 # mstest test results
 TestResults
